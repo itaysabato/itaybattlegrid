@@ -8,6 +8,8 @@ package battlegrid.abstracts;
  * Time: 15:23:13 <br/>
  */
 public interface GameEntityInfo {
+    public static final int IMMORTAL = -1;
+
     int getID();
     GameEntityType getType();
     boolean canShoot();

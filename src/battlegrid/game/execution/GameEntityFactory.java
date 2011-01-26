@@ -10,8 +10,13 @@ import battlegrid.abstracts.GameEntityType;
  * Time: 18:43:57 <br/>
  */
 public class GameEntityFactory {
+    private int[] IDs = new int[GameEntityType.values().length] ;
     
-    public GameEntity makeEntity(GameEntityType type) {
-        return null;
+    public GameEntity makeEntity(GameEntityType type, int x, int y) {
+        switch (type) {
+            case PLAYER:throw new RuntimeException("make entity is not " +
+                    "supposed to make a player entity!");
+            default: return new GameEntity(type, IDs[type.ordinal()]++, x, y);
+        }
     }
 }

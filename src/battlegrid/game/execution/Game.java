@@ -1,9 +1,13 @@
 package battlegrid.game.execution;
 
-import battlegrid.abstracts.ActionHolder;
-import battlegrid.abstracts.GameEntityType;
-import battlegrid.abstracts.Player;
+import battlegrid.abstracts.*;
 import battlegrid.game.GameView;
+import battlegrid.setup.GameProperties;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Names: Itay Sabato, Rotem Barzilay <br/>
@@ -12,16 +16,20 @@ import battlegrid.game.GameView;
  * Date: 24/01/2011 <br/>
  * Time: 15:59:11 <br/>
  */
-public class Game implements Cloneable {
+public class Game {
     private GameView view;
+    private GameEntityFactory factory;
     private GameEntity[][] board;
-    private  PlayerEntity[] playerEntities;
+    private List<PlayerEntity> playerEntities;
 
-    public Game(GameEntityType[][] boardDescriptor, Player[] players, GameView view) {
+    public Game(GameView view) {
         this.view = view;
-        playerEntities = new PlayerEntity[players.length];
+    }
+
+    public void init(GameEntityType[][] boardDescriptor, Player[] players) {
+        playerEntities = new ArrayList<PlayerEntity>();
         board = new GameEntity[boardDescriptor.length][boardDescriptor[0].length];
-        GameEntityFactory factory = new GameEntityFactory();
+        factory = new GameEntityFactory();
 
         int playerCounter = 0;
         for(int i = 0; i < board.length; i++){
@@ -29,69 +37,67 @@ public class Game implements Cloneable {
                 GameEntityType type = boardDescriptor[i][j];
 
                 if(type.equals(GameEntityType.PLAYER)){
-                    playerEntities[playerCounter] = new PlayerEntity(players[playerCounter], playerCounter);
-                    board[i][j] = playerEntities[playerCounter];
+                    PlayerEntity playerEntity = new PlayerEntity(playerCounter, j, i, players[playerCounter]);
+                    playerEntities.add(playerEntity);
+                    board[i][j] =playerEntity;
                     playerCounter++;
                 }
-                else board[i][j] = factory.makeEntity(type);
+                else board[i][j] = factory.makeEntity(type, j, i);
             }
         }
-    }
 
-    // TODO: Handle copy of playerEntities
-    public Game clone() throws CloneNotSupportedException {
-        Game game = (Game) super.clone();
-        game.view = view.clone();
-
-        game.board = new GameEntity[board.length][board[0].length];
-        for(int i = 0; i < board.length; i++){
-            for(int j = 0; j < board[i].length; j++){
-                game.board[i][j] = board[i][j].clone();
-            }
-        }
-        return game;
-    }
-
-    public void startGame() {
         for(PlayerEntity entity : playerEntities){
             entity.getPlayer().init(board, entity);
         }
-        view.init(board);
-
-        while(nextRound());
+        view.init(board, playerEntities.toArray(new PlayerEntity[playerEntities.size()]));
     }
 
-    private boolean nextRound() {
-        ActionHolder[] actionHolders = collectActions();
-        for(int i = 0; i < playerEntities.length; i++){
-            actionHolders[i].getAction().execute(this, playerEntities[i]);
+    public int startGame() {
+        while(playerEntities.size() > 1) {
+            nextRound();
         }
-        return false;
+        return playerEntities.get(0).getID();
     }
 
-    private ActionHolder[] collectActions() {
-        ActionHolder[] actionHolders = new  ActionHolder[playerEntities.length];
-        int i = 0;
+    private void nextRound() {
+        long startTime = System.currentTimeMillis();
+        ActionHolder actionHolder = new ActionHolder() {
+            private Action action = Action.NO_OP;
+
+            public void setAction(Action action) {
+                if(action == null){
+                    action = Action.NO_OP;
+                }
+                this.action = action;
+            }
+
+            public Action getAction() {
+                return action;
+            }
+        };
+
         for(PlayerEntity entity : playerEntities) {
-            actionHolders[i] = new ActionHolder() {
-                private Action action = Action.NO_OP;
-
-                public void setAction(Action action) {
-                    if(action == null){
-                        action = Action.NO_OP;
-                    }
-                    this.action = action;
-                }
-
-                public Action getAction() {
-                    return action;
-                }
-            };
-
-            entity.getPlayer().doAction(board, entity, actionHolders[i]);
-            i++;
+            entity.getPlayer().doAction(board, entity, actionHolder);
+            actionHolder.getAction().execute(this, entity);
+            actionHolder.setAction(Action.NO_OP);
         }
-        return actionHolders;
+        Iterator<PlayerEntity> iterator =  playerEntities.iterator();
+        while(iterator.hasNext()){
+            PlayerEntity entity = iterator.next();
+            if(entity.getLife() == 0){
+                iterator.remove();
+            }
+        }
+        long roundTime = GameProperties.getIntProperty("round.time");
+        long passedTime = System.currentTimeMillis() - startTime;
+        
+        if(passedTime < roundTime){
+            try {
+                Thread.sleep(roundTime - passedTime);
+            } catch (InterruptedException e) {
+                System.err.println("received interrupt");
+            }
+        }
     }
 
     /**
@@ -104,33 +110,63 @@ public class Game implements Cloneable {
     public static enum Action {
         NO_OP {
             @Override
-            public void execute(Game game, PlayerEntity playerEntity) {}
+            void execute(Game game, PlayerEntity playerEntity) {}
         },
         TURN_RIGHT {
             @Override
-            public void execute(Game game, PlayerEntity playerEntity) {
-                //To change body of implemented methods use File | Settings | File Templates.
+            void execute(Game game, PlayerEntity playerEntity) {
+                int i = (playerEntity.getDirection().ordinal() + 1) % Direction.values().length;
+                playerEntity.setDirection(Direction.values()[i]);
+                game.view.updateMove(playerEntity.getX(),playerEntity.getY(),playerEntity.getX(),playerEntity.getY());
             }
         },
         TURN_LEFT {
             @Override
-            public void execute(Game game, PlayerEntity playerEntity) {
-                //To change body of implemented methods use File | Settings | File Templates.
+            void execute(Game game, PlayerEntity playerEntity) {
+                int i = (playerEntity.getDirection().ordinal() - 1) % Direction.values().length;
+                i = (Direction.values().length + i) % Direction.values().length;
+                playerEntity.setDirection(Direction.values()[i]);
+                game.view.updateMove(playerEntity.getX(),playerEntity.getY(),playerEntity.getX(),playerEntity.getY());
             }
         },
         MOVE_FWD {
             @Override
-            public void execute(Game game, PlayerEntity playerEntity) {
-                //To change body of implemented methods use File | Settings | File Templates.
+            void execute(Game game, PlayerEntity playerEntity) {
+                int x = playerEntity.getX();
+                int y =  playerEntity.getY();
+                int nextX = x + playerEntity.getDirection().dx;
+                int nextY = y + playerEntity.getDirection().dy;
+
+                if(game.board[nextY][nextX].getType().equals(GameEntityType.BLANK)) {
+                    game.board[nextY][nextX] =  playerEntity;
+                    playerEntity.setXY(nextX,nextY);
+                    game.board[y][x] = game.factory.makeEntity(GameEntityType.BLANK, x, y);
+                    game.view.updateMove(x,y,nextX,nextY);
+                }
             }
         },
         SHOOT {
             @Override
-            public void execute(Game game, PlayerEntity playerEntity) {
-                //To change body of implemented methods use File | Settings | File Templates.
+            void execute(Game game, PlayerEntity playerEntity) {
+                int x = playerEntity.getX();
+                int y = playerEntity.getY();
+                do{
+                    x += playerEntity.getDirection().dx;
+                    y += playerEntity.getDirection().dy;
+                } while(game.board[y][x].getType().equals(GameEntityType.BLANK));
+
+                GameEntity wounded = game.board[y][x];
+                if(wounded.getLife() != GameEntityInfo.IMMORTAL){
+                    wounded.setLife(wounded.getLife() - 1);
+                    if(wounded.getLife() == 0){
+                        game.board[y][x] = game.factory.makeEntity(GameEntityType.BLANK, x, y);
+                    }
+                }
+
+                game.view.updateShot(playerEntity.getX(),playerEntity.getY(),x,y);
             }
         };
 
-        public abstract void execute(Game game, PlayerEntity playerEntity);
+        abstract void execute(Game game, PlayerEntity playerEntity);
     }
 }

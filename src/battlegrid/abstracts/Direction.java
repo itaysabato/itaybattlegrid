@@ -8,12 +8,22 @@ package battlegrid.abstracts;
  * Time: 15:43:51 <br/>
  */
 public enum Direction {
-    NORTH,
-    NORTH_EAST,
-    EAST,
-    SOUTH_EAST,
-    SOUTH,
-    SOUTH_WEST,
-    WEST,
-    NORTH_WEST
+    NORTH(0,-1),
+    NORTH_EAST(1,-1),
+    EAST(1,0),
+    SOUTH_EAST(1,1),
+    SOUTH(0,1),
+    SOUTH_WEST(-1,1),
+    WEST(-1,0),
+    NORTH_WEST(-1,-1);
+
+    public final int dx;
+    public final int dy;
+
+    Direction(int dx, int dy) {
+        this.dx = dx;
+        this.dy = dy;
+    }
 }
+
+
