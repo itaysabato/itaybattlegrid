@@ -1,6 +1,7 @@
 package battlegrid.game;
 
 import battlegrid.abstracts.GameEntityInfo;
+import battlegrid.game.execution.PlayerEntity;
 
 /**
  * Names: Itay Sabato, Rotem Barzilay <br/>
@@ -10,8 +11,7 @@ import battlegrid.abstracts.GameEntityInfo;
  * Time: 16:42:38 <br/>
  */
 public interface GameView extends Cloneable {
-    GameView clone() throws CloneNotSupportedException;
-    void init(GameEntityInfo[][] gameState);
+    void init(GameEntityInfo[][] gameState, PlayerEntity[] playerEntities);
     void updateShot(int shooterX, int shooterY, int woundedX, int woundedY);
     void updateMove(int startX, int startY, int finishX, int finishY);
 }
