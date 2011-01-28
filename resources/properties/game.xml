@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-2"?>
 <Properties>
     <Players>
-        <Player name="Player1 (Random)" className="RandomPlayer" direction="SOUTH" color="blue"/>
-        <Player name="Player2 (Random)" className="RandomPlayer" direction="WEST" color="red"/>
+        <Player name="Player1 (Random)" className="RandomPlayer" direction="SOUTH" life="3" color="blue"/>
+        <Player name="Player2 (Random)" className="RandomPlayer" direction="WEST" life="4" color="red"/>
     </Players>
 
     <Misc>
-        <Round time="100"/>
+        <Round time="10000"/>
         <WALL life="2"/>
         <BORDER life="-1"/>
         <BLANK life="-1"/>
-        <PLAYER life="3" direction="NORTH"/>
     </Misc>
 
     <Images>
@@ -31,13 +30,17 @@
     </Images>
 
     <Board>
-        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><PLAYER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><PLAYER/><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><WALL      /><WALL      /><WALL      /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><PLAYER   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><PLAYER   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
     </Board>
 </Properties>

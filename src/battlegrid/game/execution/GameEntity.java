@@ -27,6 +27,13 @@ class GameEntity implements GameEntityInfo {
         setLife(GameProperties.getGameProperties().getIntProperty(type.name()+".life"));
     }
 
+    public GameEntity(GameEntityType type, long id, int x, int y, int life) {
+        ID = id;
+        TYPE = type;
+        setXY(x,y);
+        setLife(life);
+    }
+
     public long getID() {
         return ID;
     }
