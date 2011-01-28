@@ -1,9 +1,12 @@
 package battlegrid.setup;
 
-import battlegrid.players.*;
+import battlegrid.abstracts.GameEntityInfo;
+import battlegrid.game.GameView;
+import battlegrid.game.execution.PlayerEntity;
+import battlegrid.game.view.GameViewImpl;
 import battlegrid.abstracts.Player;
 import battlegrid.game.execution.Game;
-import battlegrid.game.view.GameGUI;
+import battlegrid.game.view.NullGameView;
 
 import java.io.File;
 
@@ -22,14 +25,23 @@ public class XMLSetup {
             GameProperties properties = getGameProperties();
             XMLParser parser = new XMLParser(new File(PROPERTIES_PATH+File.separator+arguments[0]));
             properties.loadProperties(parser);
-            Player[] players = makePlayers();
 
-            GameGUI view = new  GameGUI();
+            GameView view =  Boolean.valueOf(properties.getProperty("Game.showView")) ? new GameViewImpl() : new NullGameView();
             Game game = new Game(view);
-            game.init(properties.getBoard(), players);
-            int winnerID = game.startGame();
-            System.out.println("The winner is " + properties.getPlayerAttribute(winnerID,"Player.name") );
-            view.dispose();
+            Player[] players = makePlayers();
+             int[] scores = new int[players.length];
+
+            for(int i = 0; i < properties.getIntProperty("Game.numRounds"); i++){
+                game.init(properties.getBoard(), players);
+                int winnerID = game.startGame();
+                scores[winnerID]++;
+                view.dispose();
+            }
+
+            for(int i = 0; i < scores.length; i++ ){
+                System.out.println(properties.getPlayerAttribute(i,"Player.name")
+                + " has a score of: "+scores[i]);
+            }
         }
         catch (Exception e){
             e.printStackTrace();

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-2"?>
 <Properties>
     <Players>
-        <Player name="Player1 (Random)" className="RandomPlayer" direction="SOUTH" life="3" color="blue"/>
-        <Player name="Player2 (Random)" className="RandomPlayer" direction="WEST" life="4" color="red"/>
+        <Player name="Player1 (Random)" className="RandomPlayer" direction="SOUTH" life="3" color="BLACK"/>
+        <Player name="Player2 (Random)" className="RandomPlayer" direction="WEST" life="4" color="GREEN"/>
     </Players>
 
     <Misc>
-        <Round time="10000"/>
+        <Game showView="true" numRounds="3"/>
+        <Round time="30"/>
+        <Shot time="10"/>
         <WALL life="2"/>
         <BORDER life="-1"/>
         <BLANK life="-1"/>

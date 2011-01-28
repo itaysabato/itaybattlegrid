@@ -36,7 +36,9 @@ public class XMLParser {
         board = new GameEntityType[rows.getLength()][];
 
         for(int i = 0; i < rows.getLength(); i++){
-            board[i] = loadRow((Element) rows.item(i));
+            if(rows.item(i).getNodeType() == Node.ELEMENT_NODE){
+                board[i] = loadRow((Element) rows.item(i));
+            }
         }
         return board;
     }

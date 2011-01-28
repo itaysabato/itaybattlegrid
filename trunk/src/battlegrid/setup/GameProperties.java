@@ -25,12 +25,12 @@ public class GameProperties {
     public static final String PLAYERS_PACK = "battlegrid.players.";
 
     public static enum Coloring {
-        red(Color.RED),
-        blue(Color.BLUE),
-        yellow(Color.YELLOW),
-        green(Color.GREEN),
-        gray(Color.GRAY),
-        black(Color.BLACK);
+        RED(Color.RED),
+        BLUE(Color.BLUE),
+        YELLOW(Color.YELLOW),
+        GREEN(Color.GREEN),
+        GRAY(Color.GRAY),
+        BLACK(Color.BLACK);
 
         public final Color color;
 
