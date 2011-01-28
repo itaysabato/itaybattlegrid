@@ -22,7 +22,6 @@ public class XMLSetup {
             GameProperties properties = getGameProperties();
             XMLParser parser = new XMLParser(new File(PROPERTIES_PATH+File.separator+arguments[0]));
             properties.loadProperties(parser);
-            GameGUI.InitializeMaps();
             Player[] players = makePlayers();
 
             GameGUI view = new  GameGUI();

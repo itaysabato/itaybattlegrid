@@ -5,6 +5,8 @@ import battlegrid.abstracts.GameEntityType;
 import battlegrid.abstracts.Player;
 import battlegrid.setup.GameProperties;
 
+import static battlegrid.setup.GameProperties.*;
+
 /**
  * Names: Itay Sabato, Rotem Barzilay <br/>
  * Logins: itays04, rotmus <br/>
@@ -16,9 +18,10 @@ public class PlayerEntity extends GameEntity {
     private Player player;
 
     public PlayerEntity(long id, int x, int y, Player player) {
-        super(GameEntityType.PLAYER, id, x, y);
+        super(GameEntityType.PLAYER, id, x, y,
+                Integer.parseInt(getGameProperties().getPlayerAttribute((int) id,"Player.life")));
+        setDirection(Direction.valueOf(getGameProperties().getPlayerAttribute((int) id,"Player.direction")));
         this.player = player;
-        setDirection(Direction.valueOf(GameProperties.getGameProperties().getProperty("PLAYER.direction")));
     }
 
     public Player getPlayer() {

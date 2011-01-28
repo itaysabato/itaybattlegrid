@@ -4,6 +4,7 @@ import battlegrid.abstracts.GameEntityInfo;
 import battlegrid.abstracts.GameEntityType;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,21 @@ public class GameProperties {
     public static final String PROPERTIES_PATH = RES_PATH+ File.separator+"properties";
     public static final String IMAGES_PATH = RES_PATH+ File.separator+"images";
     public static final String PLAYERS_PACK = "battlegrid.players.";
+
+    public static enum Coloring {
+        red(Color.RED),
+        blue(Color.BLUE),
+        yellow(Color.YELLOW),
+        green(Color.GREEN),
+        gray(Color.GRAY),
+        black(Color.BLACK);
+
+        public final Color color;
+
+        Coloring(Color color) {
+            this.color = color;
+        }
+    }
 
     private static GameProperties instance = new GameProperties();
 

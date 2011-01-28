@@ -22,7 +22,6 @@ public class Setup {
 
     public static void main(String[] args) {
         GameEntityType[][] board = null;
-        GameGUI.InitializeMaps();
         //reading level:
         File file = new File("resources\\properties\\level.txt");
         try {
