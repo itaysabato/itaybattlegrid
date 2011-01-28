@@ -9,8 +9,6 @@ import battlegrid.game.execution.PlayerEntity;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 import static java.lang.Thread.sleep;
@@ -24,32 +22,33 @@ import static java.lang.Thread.sleep;
  */
 public class GameGUI implements GameView {
     private static final int HIEGHT = 50;
-    private static final int WIDTH = 55;
+    private static final int WIDTH = 50;
     private static final int INFO_SIZE = 3;
     private static final int PLAYER_ID = 0;
     private static final int PLAYER_HEALTH = 1;
-    private static final int PLAYER_WINS = 2;
-    private static final long SHOT_INTERVAL = 350;
+    private static final int PLAYER_COLOR = 2;
+    private static final long SHOT_INTERVAL = 30;
 
-    private static final ImageIcon BORDER = new ImageIcon("resources\\images\\border.jpg");
-    private static final ImageIcon WALL = new ImageIcon("resources\\images\\wall.jpg");
-    private static final ImageIcon BLANK = new ImageIcon("resources\\images\\bg.jpg");
-    private static final ImageIcon PLAYER = new ImageIcon("resources\\images\\up.jpg");
-    private static final ImageIcon SHOT = new ImageIcon("resources\\images\\shot.jpg");
-    private static final ImageIcon HIT = new ImageIcon("resources\\images\\hit.jpg");
+    private static final ImageIcon BORDER = new ImageIcon("resources\\images\\border.png");
+    private static final ImageIcon WALL = new ImageIcon("resources\\images\\wall.png");
+    private static final ImageIcon BLANK = new ImageIcon("resources\\images\\bg.png");
+    private static final ImageIcon PLAYER = new ImageIcon("resources\\images\\up.png");
+    private static final ImageIcon SHOT = new ImageIcon("resources\\images\\shot.png");
+    private static final ImageIcon HIT = new ImageIcon("resources\\images\\hit.png");
 
-    private static final ImageIcon NORTH = new ImageIcon("resources\\images\\up.jpg");
-    private static final ImageIcon NORTH_EAST = new ImageIcon("resources\\images\\upRight.jpg");
-    private static final ImageIcon EAST = new ImageIcon("resources\\images\\right.jpg");
-    private static final ImageIcon SOUTH_EAST = new ImageIcon("resources\\images\\downRight.jpg");
-    private static final ImageIcon SOUTH = new ImageIcon("resources\\images\\down.jpg");
-    private static final ImageIcon SOUTH_WEST = new ImageIcon("resources\\images\\downLeft.jpg");
-    private static final ImageIcon WEST = new ImageIcon("resources\\images\\left.jpg");
-    private static final ImageIcon NORTH_WEST = new ImageIcon("resources\\images\\upLeft.jpg");
+    private static final ImageIcon NORTH = new ImageIcon("resources\\images\\up.png");
+    private static final ImageIcon NORTH_EAST = new ImageIcon("resources\\images\\upRight.png");
+    private static final ImageIcon EAST = new ImageIcon("resources\\images\\right.png");
+    private static final ImageIcon SOUTH_EAST = new ImageIcon("resources\\images\\downRight.png");
+    private static final ImageIcon SOUTH = new ImageIcon("resources\\images\\down.png");
+    private static final ImageIcon SOUTH_WEST = new ImageIcon("resources\\images\\downLeft.png");
+    private static final ImageIcon WEST = new ImageIcon("resources\\images\\left.png");
+    private static final ImageIcon NORTH_WEST = new ImageIcon("resources\\images\\upLeft.png");
 
     static private Map<GameEntityType,ImageIcon> imageMap = new HashMap<GameEntityType,ImageIcon>();
     static private Map<Direction,ImageIcon> dircetionMap = new HashMap<Direction,ImageIcon>();
-    static private Color[] playersColors = {Color.red,Color.blue,Color.yellow,Color.green,Color.gray};
+    static private Color[] playersColors = {Color.red,Color.blue,Color.yellow,Color.green,Color.gray,Color.black};
+    static private String[] colors = {"red","blue","yellow","green","gray","black"};
 
     private JFrame frame;
     private JPanel[][] cells;
@@ -59,24 +58,6 @@ public class GameGUI implements GameView {
 
     public GameGUI(){
         frame = new JFrame("BATTLE GRID");
-        //todo:cut from here.
-        /*
-        int counter = 0;
-        cells = new JPanel[boardDescriptor.length][boardDescriptor[0].length];
-        for(int i = 0;i< boardDescriptor.length;i++){
-            for(int j = 0;j< boardDescriptor[i].length;j++)   {
-                JLabel label =  new JLabel(imageMap.get(boardDescriptor[i][j]));
-                JPanel panel = new JPanel();
-                cells[i][j] = panel;
-                panel.add(label);
-                panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-                panel.setPreferredSize(new Dimension(WIDTH,HIEGHT));
-                if(boardDescriptor[i][j].equals(GameEntityType.PLAYER)) {
-                    panel.setBackground(playersColors[counter]);
-                    counter++;
-                }
-            }
-        }          */
     }
 
     public static void InitializeMaps() {
@@ -134,14 +115,13 @@ public class GameGUI implements GameView {
             comp1.setAlignmentX(Component.CENTER_ALIGNMENT);
         }
         //setting info labels:
-        //todo:remove comment.
         for(int i = 0;i<playerEntities.length;i++) {
             playersInfo[i][PLAYER_ID] = new JLabel("player: "+playerEntities[i].getID());
             playersInfo[i][PLAYER_HEALTH] = new JLabel("health: "+playerEntities[i].getLife()) ;
-            playersInfo[i][PLAYER_WINS] = new JLabel("wins: "+playerEntities[i].getLife()) ;
+            playersInfo[i][PLAYER_COLOR] = new JLabel("color: "+colors[i]) ;
             topLeft.add(playersInfo[i][PLAYER_ID]);
             topLeft.add(playersInfo[i][PLAYER_HEALTH]);
-            topLeft.add(playersInfo[i][PLAYER_WINS]);
+            topLeft.add(playersInfo[i][PLAYER_COLOR]);
         }
         //setting grid icons:
         for(int i = 0;i< cells.length;i++){
@@ -155,7 +135,7 @@ public class GameGUI implements GameView {
         for(int i = 0;i<playerEntities.length;i++) {
             playersInfo[i][PLAYER_ID].setText("player: "+playerEntities[i].getID());
             playersInfo[i][PLAYER_HEALTH].setText("health: "+playerEntities[i].getLife()) ;
-            playersInfo[i][PLAYER_WINS].setText("wins: "+playerEntities[i].getLife()) ;
+            playersInfo[i][PLAYER_COLOR].setText("color: "+colors[i]) ;
         }
     }
 
@@ -165,7 +145,6 @@ public class GameGUI implements GameView {
         this.gameState = gameState;
         this.playerEntities = playerEntities;
         playersInfo = new JLabel[playerEntities.length][INFO_SIZE];
-        //todo:remove comment.
         int counter = 0;
         cells = new JPanel[gameState.length][gameState[0].length];
         for(int i = 0;i< gameState.length;i++){
@@ -201,6 +180,7 @@ public class GameGUI implements GameView {
             while(!(shooterY==woundedY && shooterX==woundedX)){
                 JLabel cell = (JLabel)cells[shooterY][shooterX].getComponents()[0];
                 cell.setIcon(SHOT);
+                sleep(SHOT_INTERVAL);
                 shooterX += addX;
                 shooterY += addY;
             }
@@ -208,11 +188,11 @@ public class GameGUI implements GameView {
             JLabel hitCell = (JLabel)cells[woundedY][woundedX].getComponents()[0];
             ImageIcon beforeHit = (ImageIcon)hitCell.getIcon();
             hitCell.setIcon(HIT);
-            sleep(SHOT_INTERVAL);
+            sleep(SHOT_INTERVAL*2);
             hitCell.setIcon(beforeHit);
             sleep(SHOT_INTERVAL);
             hitCell.setIcon(HIT);
-            sleep(SHOT_INTERVAL);
+            sleep(SHOT_INTERVAL*2);
             hitCell.setIcon(beforeHit);
             //remove shot:
             while(!(startY==woundedY && startX==woundedX)){
@@ -225,8 +205,8 @@ public class GameGUI implements GameView {
             e.printStackTrace();
         }
         //remove dead target
-        if(gameState[woundedY][woundedX].getLife()==0){
-            JLabel cell = (JLabel)cells[startY][startX].getComponents()[0];
+        if(gameState[woundedY][woundedX].getType().equals(GameEntityType.BLANK)){
+            JLabel cell = (JLabel)cells[woundedY][woundedX].getComponents()[0];
             cell.setIcon(BLANK);
         }
         updateInfo();
@@ -244,7 +224,7 @@ public class GameGUI implements GameView {
             cell.setIcon(BLANK);
             JLabel cell2 = (JLabel)cells[finishY][finishX].getComponents()[0];
             cell2.setIcon(dircetionMap.get(gameState[finishY][finishX].getDirection()));
-            cells[finishY][finishX].setBackground(playersColors[gameState[finishY][finishX].getID()]);
+            cells[finishY][finishX].setBackground(playersColors[(int)gameState[finishY][finishX].getID()]);
         }
     }
 

@@ -15,10 +15,10 @@ import battlegrid.setup.GameProperties;
 public class PlayerEntity extends GameEntity {
     private Player player;
 
-    public PlayerEntity(int id, int x, int y, Player player) {
+    public PlayerEntity(long id, int x, int y, Player player) {
         super(GameEntityType.PLAYER, id, x, y);
         this.player = player;
-        setDirection(Direction.valueOf(GameProperties.getProperty("player.direction")));
+        setDirection(Direction.valueOf(GameProperties.getGameProperties().getProperty("PLAYER.direction")));
     }
 
     public Player getPlayer() {

@@ -10,7 +10,7 @@ import battlegrid.abstracts.GameEntityType;
  * Time: 18:43:57 <br/>
  */
 public class GameEntityFactory {
-    private int[] IDs = new int[GameEntityType.values().length] ;
+    private long[] IDs = new long[GameEntityType.values().length] ;
     
     public GameEntity makeEntity(GameEntityType type, int x, int y) {
         switch (type) {

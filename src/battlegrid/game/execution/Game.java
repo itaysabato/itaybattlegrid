@@ -5,7 +5,6 @@ import battlegrid.game.GameView;
 import battlegrid.setup.GameProperties;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class Game {
         while(playerEntities.size() > 1) {
             nextRound();
         }
-        return playerEntities.get(0).getID();
+        return (int) playerEntities.get(0).getID();
     }
 
     private void nextRound() {
@@ -88,7 +87,7 @@ public class Game {
                 iterator.remove();
             }
         }
-        long roundTime = GameProperties.getIntProperty("round.time");
+        long roundTime = GameProperties.getGameProperties().getIntProperty("Round.time");
         long passedTime = System.currentTimeMillis() - startTime;
         
         if(passedTime < roundTime){

@@ -13,21 +13,21 @@ import battlegrid.setup.GameProperties;
  * Time: 16:54:27 <br/>
  */
 class GameEntity implements GameEntityInfo {
-    private final int ID;
+    private final long ID;
     private final GameEntityType TYPE;
     protected int life;
     protected Direction direction;
     protected int x;
     protected int y;
 
-    public GameEntity(GameEntityType type, int id, int x, int y) {
+    public GameEntity(GameEntityType type, long id, int x, int y) {
         ID = id;
         TYPE = type;
         setXY(x,y);
-        setLife(GameProperties.getIntProperty(type.name()+".life"));
+        setLife(GameProperties.getGameProperties().getIntProperty(type.name()+".life"));
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 
