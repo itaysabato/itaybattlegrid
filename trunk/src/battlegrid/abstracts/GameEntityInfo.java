@@ -10,7 +10,7 @@ package battlegrid.abstracts;
 public interface GameEntityInfo {
     public static final int IMMORTAL = -1;
 
-    int getID();
+    long getID();
     GameEntityType getType();
     boolean canShoot();
     int getLife();
