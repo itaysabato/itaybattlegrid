@@ -85,6 +85,7 @@ public class Game {
             PlayerEntity entity = iterator.next();
             if(entity.getLife() == 0){
                 iterator.remove();
+                break;
             }
         }
         long roundTime = GameProperties.getGameProperties().getIntProperty("Round.time");

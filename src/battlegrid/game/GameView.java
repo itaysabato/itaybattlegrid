@@ -14,4 +14,5 @@ public interface GameView extends Cloneable {
     void init(GameEntityInfo[][] gameState, PlayerEntity[] playerEntities);
     void updateShot(int shooterX, int shooterY, int woundedX, int woundedY);
     void updateMove(int startX, int startY, int finishX, int finishY);
+    void dispose();
 }

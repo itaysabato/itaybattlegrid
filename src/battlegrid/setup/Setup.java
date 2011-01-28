@@ -3,8 +3,7 @@ package battlegrid.setup;
 import battlegrid.abstracts.GameEntityType;
 import battlegrid.abstracts.Player;
 import battlegrid.game.execution.*;
-import battlegrid.game.view.GameGUI;
-import battlegrid.players.HumanPlayer;
+import battlegrid.game.view.GameViewImpl;
 import battlegrid.players.RandomPlayer;
 
 import java.io.File;
@@ -50,7 +49,7 @@ public class Setup {
         Player[] players = new  Player[2];
         players[0] = new RandomPlayer();
         players[1] =  new RandomPlayer();
-        GameGUI view = new  GameGUI();
+        GameViewImpl view = new GameViewImpl();
         Game game = new Game(view);
         game.init(board, players);
         System.out.println("The winner is player " + game.startGame());

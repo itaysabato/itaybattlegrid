@@ -21,14 +21,13 @@ import static java.lang.Thread.sleep;
  * Time: 18:03:01
  * To change this template use File | Settings | File Templates.
  */
-public class GameGUI implements GameView {
+public class GameViewImpl implements GameView {
     private static final int HEIGHT = 50;
     private static final int WIDTH = 50;
     private static final int INFO_SIZE = 3;
     private static final int PLAYER_ID = 0;
     private static final int PLAYER_HEALTH = 1;
     private static final int PLAYER_COLOR = 2;
-    private static final long SHOT_INTERVAL = 100;
 
     private JFrame frame;
     private JPanel[][] cells;
@@ -36,7 +35,7 @@ public class GameGUI implements GameView {
     private PlayerEntity[] playerEntities;
     private JLabel[][] playersInfo;
 
-    public GameGUI(){
+    public GameViewImpl(){
         frame = new JFrame("BATTLE GRID");
     }
 
@@ -134,6 +133,7 @@ public class GameGUI implements GameView {
     }
 
     public void updateShot(int shooterX, int shooterY, int woundedX, int woundedY) {
+        long shotInterval = getGameProperties().getIntProperty("Shot.time");
         int addX = 0,addY = 0;
         if(shooterX<woundedX)  addX = 1;
         else if(shooterX>woundedX) addX = -1;
@@ -149,7 +149,7 @@ public class GameGUI implements GameView {
             while(!(shooterY==woundedY && shooterX==woundedX)){
                 JLabel cell = (JLabel)cells[shooterY][shooterX].getComponents()[0];
                 cell.setIcon(getGameProperties().getImage("Shot.image"));
-                sleep(SHOT_INTERVAL);
+                sleep(shotInterval);
                 shooterX += addX;
                 shooterY += addY;
             }
@@ -157,11 +157,11 @@ public class GameGUI implements GameView {
             JLabel hitCell = (JLabel)cells[woundedY][woundedX].getComponents()[0];
             ImageIcon beforeHit = (ImageIcon)hitCell.getIcon();
             hitCell.setIcon(getGameProperties().getImage("Hit.image"));
-            sleep(SHOT_INTERVAL*2);
+            sleep(shotInterval*2);
             hitCell.setIcon(beforeHit);
-            sleep(SHOT_INTERVAL);
+            sleep(shotInterval);
             hitCell.setIcon(getGameProperties().getImage("Hit.image"));
-            sleep(SHOT_INTERVAL*2);
+            sleep(shotInterval*2);
             hitCell.setIcon(beforeHit);
             //remove shot:
             while(!(startY==woundedY && startX==woundedX)){
