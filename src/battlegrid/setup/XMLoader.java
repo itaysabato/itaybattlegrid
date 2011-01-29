@@ -20,10 +20,10 @@ import java.util.*;
  * Date: 27/01/2011 <br/>
  * Time: 23:59:06 <br/>
  */
-public class XMLParser {
+public class XMLoader {
     private Element properties;
 
-    public XMLParser(File input) throws ParserConfigurationException, IOException, SAXException {
+    public XMLoader(File input) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setIgnoringElementContentWhitespace(true);
         factory.setIgnoringComments(true);

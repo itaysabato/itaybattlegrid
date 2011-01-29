@@ -1,8 +1,6 @@
 package battlegrid.setup;
 
-import battlegrid.abstracts.GameEntityInfo;
 import battlegrid.game.GameView;
-import battlegrid.game.execution.PlayerEntity;
 import battlegrid.game.view.GameViewImpl;
 import battlegrid.abstracts.Player;
 import battlegrid.game.execution.Game;
@@ -23,7 +21,7 @@ public class XMLSetup {
     public static void main(String[] arguments) {
         try {
             GameProperties properties = getGameProperties();
-            XMLParser parser = new XMLParser(new File(PROPERTIES_PATH+File.separator+arguments[0]));
+            XMLoader parser = new XMLoader(new File(PROPERTIES_PATH+File.separator+arguments[0]));
             properties.loadProperties(parser);
 
             GameView view =  Boolean.valueOf(properties.getProperty("Game.showView")) ? new GameViewImpl() : new NullGameView();
@@ -38,13 +36,18 @@ public class XMLSetup {
                 view.dispose();
             }
 
-            for(int i = 0; i < scores.length; i++ ){
+            for(int i = 0; i < scores.length; i++){
                 System.out.println(properties.getPlayerAttribute(i,"Player.name")+
                         "("+properties.getPlayerAttribute(i,"Player.className")+")"
                 + " has a score of: "+scores[i]);
             }
         }
+         catch (RuntimeException e){
+            System.err.println("runtime exception thrown:");
+            e.printStackTrace();
+        }
         catch (Exception e){
+            System.err.println("checked exception thrown during setup:");
             e.printStackTrace();
         }
     }
