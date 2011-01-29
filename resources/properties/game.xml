@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="ISO-8859-2"?>
 <Properties>
     <Players>
-        <Player name="Player1 (Random)" className="RandomPlayer" direction="SOUTH" life="3" color="BLACK"/>
-        <Player name="Player2 (Random)" className="RandomPlayer" direction="WEST" life="4" color="GREEN"/>
+        <Player name="Player1" className="CamperPlayer" direction="SOUTH" life="3" color="BLACK"/>
+        <Player name="Player2" className="RandomPlayer" direction="WEST" life="3" color="RED"/>
     </Players>
 
     <Misc>
-        <Game showView="true" numRounds="3"/>
-        <Round time="30"/>
-        <Shot time="10"/>
+        <Game showView="true" numRounds="5"/>
+        <Round time="100"/>
+        <Shot time="40"/>
         <WALL life="2"/>
         <BORDER life="-1"/>
         <BLANK life="-1"/>
@@ -32,17 +32,17 @@
     </Images>
 
     <Board>
-        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><PLAYER   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><PLAYER   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER   /></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><PLAYER   /><BLANK   /><BLANK   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><PLAYER   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
     </Board>
 </Properties>
