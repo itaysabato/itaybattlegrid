@@ -76,7 +76,7 @@ public class Game {
         };
 
         for(PlayerEntity entity : playerEntities) {
-            entity.getPlayer().doAction(board, entity, actionHolder);
+            entity.getPlayer().doAction(copy(board), entity, actionHolder);
             actionHolder.getAction().execute(this, entity);
             actionHolder.setAction(Action.NO_OP);
         }
@@ -98,6 +98,14 @@ public class Game {
                 System.err.println("received interrupt");
             }
         }
+    }
+
+    private static GameEntityInfo[][] copy(GameEntityInfo[][] board) {
+        GameEntityInfo[][] duplicate = new GameEntityInfo[board.length][board[0].length];
+        for(int i = 0; i < board.length; i++){
+            System.arraycopy(board[i], 0, duplicate[i], 0, board[i].length);
+        }
+        return duplicate;
     }
 
     /**

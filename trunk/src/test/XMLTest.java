@@ -1,7 +1,7 @@
 package test;
 
 import static battlegrid.setup.GameProperties.*;
-import battlegrid.setup.XMLParser;
+import battlegrid.setup.XMLoader;
 import junit.framework.TestCase;
 import org.xml.sax.SAXException;
 
@@ -22,19 +22,19 @@ import java.util.Map;
 public class XMLTest extends TestCase {
 
     public void testMisc() throws IOException, SAXException, ParserConfigurationException {
-        XMLParser parser = new XMLParser(new File(PROPERTIES_PATH+File.separator+"game.xml"));
+        XMLoader parser = new XMLoader(new File(PROPERTIES_PATH+File.separator+"game.xml"));
         Map<String, String> miscProperties = parser.loadMisc();
         System.out.println(miscProperties);
     }
 
      public void testImages() throws IOException, SAXException, ParserConfigurationException {
-         XMLParser parser = new XMLParser(new File(PROPERTIES_PATH+File.separator+"game.xml"));
+         XMLoader parser = new XMLoader(new File(PROPERTIES_PATH+File.separator+"game.xml"));
         Map<String, ImageIcon> images = parser.loadImages();
         System.out.println(images);
     }
 
      public void testPlayers() throws IOException, SAXException, ParserConfigurationException {
-         XMLParser parser = new XMLParser(new File(PROPERTIES_PATH+File.separator+"game.xml"));
+         XMLoader parser = new XMLoader(new File(PROPERTIES_PATH+File.separator+"game.xml"));
         List<Map<String, String>> list = parser.loadPlayers();
         System.out.println(list);
     }

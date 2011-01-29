@@ -1,12 +1,10 @@
 package battlegrid.setup;
 
-import battlegrid.abstracts.GameEntityInfo;
 import battlegrid.abstracts.GameEntityType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +50,7 @@ public class GameProperties {
         return instance;
     }
 
-    public void  loadProperties(XMLParser parser) {
+    public void  loadProperties(XMLoader parser) {
         board = parser.loadBoard();
         misc = parser.loadMisc();
         images = parser.loadImages();

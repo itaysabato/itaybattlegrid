@@ -7,7 +7,7 @@
 
     <Misc>
         <Game showView="true" numRounds="5"/>
-        <Round time="100"/>
+        <Round time="300"/>
         <Shot time="40"/>
         <WALL life="2"/>
         <BORDER life="-1"/>
