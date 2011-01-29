@@ -39,7 +39,8 @@ public class XMLSetup {
             }
 
             for(int i = 0; i < scores.length; i++ ){
-                System.out.println(properties.getPlayerAttribute(i,"Player.name")
+                System.out.println(properties.getPlayerAttribute(i,"Player.name")+
+                        "("+properties.getPlayerAttribute(i,"Player.className")+")"
                 + " has a score of: "+scores[i]);
             }
         }
