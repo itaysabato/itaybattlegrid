@@ -28,13 +28,16 @@ public class CamperPlayer implements Player {
         if(gameState[y][x].getLife() > 0) {
             toDo.setAction(Game.Action.SHOOT);
         }
-        else if(turns < Direction.values().length){
-            toDo.setAction(Game.Action.TURN_LEFT);
-            turns++;
-        }
         else {
-            toDo.setAction(Game.Action.MOVE_FWD);
-             turns = 0;
+            boolean isFrontClear = gameState[myState.getDirection().dy + myState.getY()][myState.getDirection().dx + myState.getX()].getType().equals(GameEntityType.BLANK);
+            if(turns < Direction.values().length || !isFrontClear){
+                toDo.setAction(Game.Action.TURN_LEFT);
+                turns++;
+            }
+            else {
+                toDo.setAction(Game.Action.MOVE_FWD);
+                turns = 0;
+            }
         }
     }
 }

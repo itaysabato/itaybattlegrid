@@ -37,10 +37,10 @@
         <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
         <Row><BORDER/><PLAYER   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BORDER/></Row>
         <Row><BORDER/><BLANK   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><WALL /><WALL /><WALL /><BLANK /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><WALL /><WALL /><WALL /><BLANK /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><WALL /><WALL /><WALL /><BLANK /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><WALL /><WALL /><WALL /><PLAYER /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><PLAYER /><BORDER/></Row>
         <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
     </Board>
 </Properties>
