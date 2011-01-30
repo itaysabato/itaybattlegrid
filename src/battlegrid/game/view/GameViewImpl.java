@@ -63,12 +63,7 @@ public class GameViewImpl implements GameView {
         window.add(grid);
         TitledBorder topLeftTitle = new TitledBorder("Players Info");
         topLeft.setBorder(topLeftTitle);
-//        TitledBorder topRightTitle = new TitledBorder("Setting");
-//        topRight.setBorder(topRightTitle);
-//        TitledBorder gridTitle = new TitledBorder("Game");
-//        grid.setBorder(gridTitle);
-//        topRight.add(new JButton("Back to setup"));
-//        topRight.add(new JButton("Something"));
+
         for(Component comp:topRight.getComponents()){
             JComponent comp1 =  (JComponent)comp;
             comp1.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -91,9 +86,7 @@ public class GameViewImpl implements GameView {
 
     private void updateInfo() {
         for(int i = 0;i<playerEntities.length;i++) {
-            //playersInfo[i][PLAYER_ID].setText("player: "+playerEntities[i].getID());
             playersHealth[i].setText("health: "+playerEntities[i].getLife()) ;
-            //playersInfo[i][PLAYER_COLOR].setText("color: "+getGameProperties().getPlayerAttribute(i, "Player.color")) ;
         }
     }
 
@@ -166,6 +159,10 @@ public class GameViewImpl implements GameView {
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        if(gameState[woundedY][woundedX].getType().equals(GameEntityType.WALL)){
+            JLabel cell = (JLabel)cells[woundedY][woundedX].getComponents()[0];
+            cell.setIcon(getGameProperties().getImage("WALL2.image"));
         }
         //remove dead target
         if(gameState[woundedY][woundedX].getType().equals(GameEntityType.BLANK)){
