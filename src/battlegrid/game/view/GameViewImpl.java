@@ -162,7 +162,7 @@ public class GameViewImpl implements GameView {
         }
         if(gameState[woundedY][woundedX].getType().equals(GameEntityType.WALL)){
             JLabel cell = (JLabel)cells[woundedY][woundedX].getComponents()[0];
-            cell.setIcon(getGameProperties().getImage("WALL2.image"));
+            cell.setIcon(getGameProperties().getImage("BROKEN_WALL.image"));
         }
         //remove dead target
         if(gameState[woundedY][woundedX].getType().equals(GameEntityType.BLANK)){
