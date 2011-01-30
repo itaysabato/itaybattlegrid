@@ -9,7 +9,7 @@
         <Square height="80" width="80"/>
         <Game showView="true" numRounds="5"/>
         <Round time="300"/>
-        <Shot time="40"/>
+        <Shot time="100"/>
         <WALL life="2"/>
         <BORDER life="-1"/>
         <BLANK life="-1"/>
@@ -26,6 +26,7 @@
         <Direction NORTH_WEST="upLeft.png"/>
 
         <WALL image="wall.png"/>
+        <WALL2 image="wall2.png"/>
         <BORDER image="border.png"/>
         <BLANK image="bg.png"/>
         <Shot image="shot.png"/>
