@@ -6,6 +6,7 @@
     </Players>
 
     <Misc>
+        <Square height="80" width="80"/>
         <Game showView="true" numRounds="5"/>
         <Round time="300"/>
         <Shot time="40"/>
@@ -32,17 +33,13 @@
     </Images>
 
     <Board>
-        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER   /></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><PLAYER   /><BLANK   /><BLANK   /><WALL   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><PLAYER   /><WALL   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BLANK   /><BORDER/></Row>
-        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
+        <Row><BORDER/><PLAYER   /><BLANK   /><BLANK   /><WALL   /><BLANK   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><PLAYER   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><BLANK   /><WALL   /><BLANK   /><BLANK   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
     </Board>
 </Properties>
