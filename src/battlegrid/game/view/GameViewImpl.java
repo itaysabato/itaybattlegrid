@@ -22,18 +22,13 @@ import static java.lang.Thread.sleep;
  * To change this template use File | Settings | File Templates.
  */
 public class GameViewImpl implements GameView {
-    private static final int HEIGHT = 50;
-    private static final int WIDTH = 50;
-    private static final int INFO_SIZE = 3;
-    private static final int PLAYER_ID = 0;
-    private static final int PLAYER_HEALTH = 1;
-    private static final int PLAYER_COLOR = 2;
+
 
     private JFrame frame;
     private JPanel[][] cells;
     private GameEntityInfo[][] gameState;
     private PlayerEntity[] playerEntities;
-    private JLabel[][] playersInfo;
+    private JLabel[] playersHealth;
 
     public GameViewImpl(){
         frame = new JFrame("BATTLE GRID");
@@ -68,24 +63,23 @@ public class GameViewImpl implements GameView {
         window.add(grid);
         TitledBorder topLeftTitle = new TitledBorder("Players Info");
         topLeft.setBorder(topLeftTitle);
-        TitledBorder topRightTitle = new TitledBorder("Setting");
-        topRight.setBorder(topRightTitle);
-        TitledBorder gridTitle = new TitledBorder("Game");
-        grid.setBorder(gridTitle);
-        topRight.add(new JButton("Back to setup"));
-        topRight.add(new JButton("Something"));
+//        TitledBorder topRightTitle = new TitledBorder("Setting");
+//        topRight.setBorder(topRightTitle);
+//        TitledBorder gridTitle = new TitledBorder("Game");
+//        grid.setBorder(gridTitle);
+//        topRight.add(new JButton("Back to setup"));
+//        topRight.add(new JButton("Something"));
         for(Component comp:topRight.getComponents()){
             JComponent comp1 =  (JComponent)comp;
             comp1.setAlignmentX(Component.CENTER_ALIGNMENT);
         }
         //setting info labels:
         for(int i = 0;i<playerEntities.length;i++) {
-            playersInfo[i][PLAYER_ID] = new JLabel("player: "+playerEntities[i].getID());
-            playersInfo[i][PLAYER_HEALTH] = new JLabel("health: "+playerEntities[i].getLife()) ;
-            playersInfo[i][PLAYER_COLOR] = new JLabel("color: "+getGameProperties().getPlayerAttribute(i, "Player.color")) ;
-            topLeft.add(playersInfo[i][PLAYER_ID]);
-            topLeft.add(playersInfo[i][PLAYER_HEALTH]);
-            topLeft.add(playersInfo[i][PLAYER_COLOR]);
+            playersHealth[i] = new JLabel("health: "+playerEntities[i].getLife()) ;
+            topLeft.add(new JLabel("player: "+playerEntities[i].getID()));
+            topLeft.add(playersHealth[i]);
+            topLeft.add(new JLabel("color: "+getGameProperties().getPlayerAttribute(i, "Player.color")));
+            topLeft.add(new JLabel("wins: "+getGameProperties().getPlayerAttribute(i, "Player.color")));
         }
         //setting grid icons:
         for(int i = 0;i< cells.length;i++){
@@ -97,9 +91,9 @@ public class GameViewImpl implements GameView {
 
     private void updateInfo() {
         for(int i = 0;i<playerEntities.length;i++) {
-            playersInfo[i][PLAYER_ID].setText("player: "+playerEntities[i].getID());
-            playersInfo[i][PLAYER_HEALTH].setText("health: "+playerEntities[i].getLife()) ;
-            playersInfo[i][PLAYER_COLOR].setText("color: "+getGameProperties().getPlayerAttribute(i, "Player.color")) ;
+            //playersInfo[i][PLAYER_ID].setText("player: "+playerEntities[i].getID());
+            playersHealth[i].setText("health: "+playerEntities[i].getLife()) ;
+            //playersInfo[i][PLAYER_COLOR].setText("color: "+getGameProperties().getPlayerAttribute(i, "Player.color")) ;
         }
     }
 
@@ -108,7 +102,7 @@ public class GameViewImpl implements GameView {
         frame = new JFrame("BATTLE GRID");
         this.gameState = gameState;
         this.playerEntities = playerEntities;
-        playersInfo = new JLabel[playerEntities.length][INFO_SIZE];
+        playersHealth = new JLabel[playerEntities.length];
         int counter = 0;
         cells = new JPanel[gameState.length][gameState[0].length];
         for(int i = 0;i< gameState.length;i++){
@@ -117,7 +111,7 @@ public class GameViewImpl implements GameView {
                 JLabel label;
                 cells[i][j] = panel;
                 panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-                panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+                panel.setPreferredSize(new Dimension(80,80));
                 if(gameState[i][j].getType().equals(GameEntityType.PLAYER)) {
                     panel.setBackground(Coloring.valueOf(getGameProperties().getPlayerAttribute(counter,"Player.color")).color);
                     label =  new JLabel(getGameProperties().getImage("Direction."+getGameProperties().getPlayerAttribute(counter,"Player.direction")));
