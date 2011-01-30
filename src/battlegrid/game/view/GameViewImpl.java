@@ -111,7 +111,7 @@ public class GameViewImpl implements GameView {
                 JLabel label;
                 cells[i][j] = panel;
                 panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
-                panel.setPreferredSize(new Dimension(80,80));
+                panel.setPreferredSize(new Dimension(getGameProperties().getIntProperty("Square.width"),getGameProperties().getIntProperty("Square.height")));
                 if(gameState[i][j].getType().equals(GameEntityType.PLAYER)) {
                     panel.setBackground(Coloring.valueOf(getGameProperties().getPlayerAttribute(counter,"Player.color")).color);
                     label =  new JLabel(getGameProperties().getImage("Direction."+getGameProperties().getPlayerAttribute(counter,"Player.direction")));
