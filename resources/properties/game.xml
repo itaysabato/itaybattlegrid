@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-2"?>
 <Properties>
     <Players>
-        <Player name="Player1" className="CamperPlayer" direction="SOUTH" life="3" color="BLACK"/>
+        <Player name="Player1" className="AStarPlayer" direction="SOUTH" life="3" color="BLACK"/>
         <Player name="Player2" className="RandomPlayer" direction="WEST" life="3" color="RED"/>
     </Players>
 
