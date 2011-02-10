@@ -21,16 +21,20 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
         List<AStarPlayer.State> states = new ArrayList<AStarPlayer.State>();
 
         for(Game.Action action : Game.Action.values()){
-            states.add(new AStarState(copy(gameState), new MyEntityInfo(myState), findEnemy(gameState,myState),action, action,0));
+            MyEntityInfo[][] gameCopy = copy(gameState);
+            int[] enemyPos = findEnemy(gameState,myState);
+            int[] myPos = {myState.getX(),myState.getY()};
+            states.add(new AStarState(gameCopy, myPos, enemyPos ,action, action,0));
         }
         return states;
     }
 
-    private MyEntityInfo findEnemy(GameEntityInfo[][] gameState, GameEntityInfo myState) {
+    private int[] findEnemy(GameEntityInfo[][] gameState, GameEntityInfo myState) {
         for(int i = 0; i<gameState.length;  i++){
             for(int j = 0; j<gameState[0].length; j++){
                 if(gameState[i][j].getType().equals(GameEntityType.PLAYER) && gameState[i][j]!=myState){
-                    return new MyEntityInfo(gameState[i][j]);
+                    int[] pos = {gameState[i][j].getX(), gameState[i][j].getY()};
+                    return pos;
                 }
             }
         }
@@ -58,16 +62,17 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
         private MyEntityInfo enemy;
 
 
-        public AStarState(MyEntityInfo[][] gameState, MyEntityInfo myState, MyEntityInfo enemy,Game.Action root, Game.Action toDo, int pathValue) {
+        public AStarState(MyEntityInfo[][] gameState, int[] myPos, int[] enemyPos,Game.Action root, Game.Action toDo, int pathValue) {
             this.pathValue = pathValue;
             rootAction = root;
             this.gameState = gameState;
+            this.myState = gameState[myPos[1]][myPos[0]];
+            this.enemy = gameState[enemyPos[1]][enemyPos[0]];
+
+            Direction dir = this.myState.getDirection();
             int x = myState.getX(), y = myState.getY();
             int enemyX = enemy.getX(), enemyY = enemy.getY();
-            Direction dir = myState.getDirection();
-            this.myState = gameState[y][x];
-            this.enemy = gameState[enemyY][enemyX];
-
+            boolean goal = false;
             switch (toDo) {
                 case TURN_RIGHT:
                     int i = (this.myState.getDirection().ordinal() + 1) % Direction.values().length;
@@ -84,15 +89,28 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                         this.myState.setXY(x+dir.dx,y+dir.dy);
                         gameState[y][x] = new MyEntityInfo(x,y);
                     }
-                    break;
+                    break;                                        
                 case SHOOT:
-                    int dy = enemy.getY()-y, dx = enemy.getX()-x;
-                    if((Math.abs(dy)==Math.abs(dx)) && (Math.abs(dy)/dy==dir.dy)  && (Math.abs(dx)/dx==dir.dx))  {
+                    int row = y+dir.dy;
+                    int col = x+dir.dx;
+                    while(gameState[row][col].getType().equals(GameEntityType.BLANK)){
+                        row += dir.dy;
+                        col += dir.dx;
+                    }
+
+                    if(row==enemyY && col==enemyX){
                         enemy.setLife(enemy.getLife()-1);
+                        goal = true;
+                    }
+                    else if(gameState[row][col].getType().equals(GameEntityType.WALL)){
+                        gameState[row][col].setLife(gameState[row][col].getLife()-1);
+                        if(gameState[row][col].getLife()<=0){
+                            gameState[row][col] = new MyEntityInfo(col,row);     
+                        }
                     }
                     break;
             }
-            heuristicValue = calculateHeuristic();
+            heuristicValue = goal?0:calculateHeuristic();
         }
 
         private int calculateHeuristic() {
@@ -102,7 +120,59 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
             int dy = Math.abs(enemy.getY()-myState.getY());
             int dx = Math.abs(enemy.getX()-myState.getX());
             int dxy = Math.abs(dx-dy);
-            return   Math.min(Math.min(dx,dy),dxy)+enemy.getLife();
+
+            return calc(Math.min(Math.min(dx,dy),dxy),dx,dy,dxy)+enemy.getLife();
+        }
+
+        private int calc(int min, int dx, int dy, int dxy) {
+            int myDir =myState.getDirection().ordinal();
+            Direction wantedDir = Direction.NORTH;
+            if(dx==min){
+                if(dx==0){
+                    wantedDir = (enemy.getY()<myState.getY())?Direction.NORTH:Direction.SOUTH;
+                }
+                else{
+                    if(enemy.getX()>myState.getX()) {
+                        wantedDir = (enemy.getY()<myState.getY())?Direction.NORTH_EAST:Direction.SOUTH_EAST;
+                    }
+                    else{
+                        wantedDir = (enemy.getY()<myState.getY())?Direction.NORTH_WEST:Direction.SOUTH_WEST;
+                    }
+                }
+            }
+            else if(dy==min){
+                if(dy==0){
+                    wantedDir = (enemy.getX()>myState.getX())?Direction.EAST:Direction.WEST;
+                }
+                else{
+                    if(enemy.getY()<myState.getY()) {
+                        wantedDir = (enemy.getX()>myState.getX())?Direction.NORTH_EAST:Direction.NORTH_WEST;                    }
+                    else{
+                        wantedDir = (enemy.getX()>myState.getX())?Direction.SOUTH_EAST:Direction.SOUTH_WEST;
+                    }
+                }
+            }
+            else if(dxy==min){
+                if(dxy==0){
+                    if(enemy.getY()<myState.getY()) {
+                        wantedDir = (enemy.getX()>myState.getX())?Direction.NORTH_EAST:Direction.NORTH_WEST;                    }
+                    else{
+                        wantedDir = (enemy.getX()>myState.getX())?Direction.SOUTH_EAST:Direction.SOUTH_WEST;
+                    }
+                }
+                else{
+                    if(dx<dy) {
+                        wantedDir = (enemy.getY()<myState.getY())?Direction.NORTH:Direction.SOUTH;                    }
+                    else{
+                        wantedDir = (enemy.getX()>myState.getX())?Direction.EAST:Direction.WEST;
+                    }
+                }
+            }
+            int dDir = Math.abs(myDir-wantedDir.ordinal());
+            int rotate =  (myDir<wantedDir.ordinal())? Math.min(dDir, Math.abs(myDir+Direction.values().length-wantedDir.ordinal())):
+                    Math.min(dDir, Math.abs(wantedDir.ordinal()+Direction.values().length-myDir));
+
+            return min+rotate;
         }
 
         public Game.Action getRootAction() {
@@ -111,9 +181,12 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
 
         public List<AStarPlayer.State> spawn() {
             List<AStarPlayer.State> states = new ArrayList<AStarPlayer.State>();
+            if(heuristicValue==0) return states;
 
+            int[] myPos =  {myState.getX(), myState.getY()};
+            int[] enemyPos =  {enemy.getX(), enemy.getY()};
             for(Game.Action action : Game.Action.values()){
-                states.add(new AStarState(copy(gameState), new MyEntityInfo(myState), new MyEntityInfo(enemy), rootAction, action,pathValue+1));
+                states.add(new AStarState(copy(gameState), myPos, enemyPos, rootAction, action,pathValue+1));
             }
             return states;
         }
@@ -157,6 +230,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
             TYPE = source.getType();
             this.canShoot = source.canShoot();
             this.hasDirection = source.hasDirection();
+            this.direction = source.getDirection();
             setDirection(source.getDirection());
             setXY(source.getX(),source.getY());
             setLife(source.getLife());

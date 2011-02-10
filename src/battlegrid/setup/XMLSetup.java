@@ -24,10 +24,11 @@ public class XMLSetup {
             XMLoader parser = new XMLoader(new File(PROPERTIES_PATH+File.separator+arguments[0]));
             properties.loadProperties(parser);
 
-            GameView view =  Boolean.valueOf(properties.getProperty("Game.showView")) ? new GameViewImpl() : new NullGameView();
-            Game game = new Game(view);
             Player[] players = makePlayers();
-             int[] scores = new int[players.length];
+            int[] scores = new int[players.length];
+            GameView view =  Boolean.valueOf(properties.getProperty("Game.showView")) ? new GameViewImpl(scores) : new NullGameView();
+            Game game = new Game(view);
+
 
             for(int i = 0; i < properties.getIntProperty("Game.numRounds"); i++){
                 game.init(properties.getBoard(), players);
