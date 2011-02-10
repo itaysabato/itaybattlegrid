@@ -29,8 +29,10 @@ public class GameViewImpl implements GameView {
     private GameEntityInfo[][] gameState;
     private PlayerEntity[] playerEntities;
     private JLabel[] playersHealth;
+    private int[] scores;
 
-    public GameViewImpl(){
+    public GameViewImpl(int[] scores){
+        this.scores = scores;
         frame = new JFrame("BATTLE GRID");
     }
 
@@ -71,10 +73,11 @@ public class GameViewImpl implements GameView {
         //setting info labels:
         for(int i = 0;i<playerEntities.length;i++) {
             playersHealth[i] = new JLabel("health: "+playerEntities[i].getLife()) ;
-            topLeft.add(new JLabel("player: "+playerEntities[i].getID()));
-            topLeft.add(playersHealth[i]);
+            topLeft.add(new JLabel("name: "+getGameProperties().getPlayerAttribute(i, "Player.name")));
+            topLeft.add(new JLabel("player type: "+getGameProperties().getPlayerAttribute(i, "Player.className")));
             topLeft.add(new JLabel("color: "+getGameProperties().getPlayerAttribute(i, "Player.color")));
-            topLeft.add(new JLabel("wins: "+getGameProperties().getPlayerAttribute(i, "Player.color")));
+            topLeft.add(playersHealth[i]);
+            topLeft.add(new JLabel("wins: "+scores[i]));
         }
         //setting grid icons:
         for(int i = 0;i< cells.length;i++){

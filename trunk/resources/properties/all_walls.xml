@@ -2,7 +2,7 @@
 <Properties>
     <Players>
         <Player name="Player1" className="CamperPlayer" direction="SOUTH" life="3" color="BLACK"/>
-        <Player name="Player2" className="RandomPlayer" direction="WEST" life="3" color="RED"/>
+        <Player name="Player2" className="AStarPlayer" direction="WEST" life="3" color="RED"/>
     </Players>
 
     <Misc>

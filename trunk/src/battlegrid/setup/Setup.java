@@ -49,7 +49,7 @@ public class Setup {
         Player[] players = new  Player[2];
         players[0] = new RandomPlayer();
         players[1] =  new RandomPlayer();
-        GameViewImpl view = new GameViewImpl();
+        GameViewImpl view = new GameViewImpl(null);
         Game game = new Game(view);
         game.init(board, players);
         System.out.println("The winner is player " + game.startGame());
