@@ -60,6 +60,7 @@ public class XMLSetup {
         for(int i = 0; i < properties.getPlayerCount(); i++){
             String className = properties.getPlayerAttribute(i,"Player.className");
             players[i] = (Player) Class.forName(PLAYERS_PACK+className).newInstance();
+            players[i].setAttributes(properties.getPlayerAttributes(i));
         }
         return players;
     }

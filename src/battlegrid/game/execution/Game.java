@@ -75,22 +75,22 @@ public class Game {
             }
         };
 
+        int kill = Action.NO_KILL;
         for(PlayerEntity entity : playerEntities) {
             entity.getPlayer().doAction(copy(board), entity, actionHolder);
-            actionHolder.getAction().execute(this, entity);
-            actionHolder.setAction(Action.NO_OP);
-        }
-        Iterator<PlayerEntity> iterator =  playerEntities.iterator();
-        while(iterator.hasNext()){
-            PlayerEntity entity = iterator.next();
-            if(entity.getLife() == 0){
-                iterator.remove();
+            kill = actionHolder.getAction().execute(this, entity);
+            if(kill != Action.NO_KILL) {
                 break;
             }
+            actionHolder.setAction(Action.NO_OP);
         }
+        if(kill != Action.NO_KILL) {
+            playerEntities.remove(kill);
+        }
+        
         long roundTime = GameProperties.getGameProperties().getIntProperty("Round.time");
         long passedTime = System.currentTimeMillis() - startTime;
-        
+
         if(passedTime < roundTime){
             try {
                 Thread.sleep(roundTime - passedTime);
@@ -118,28 +118,30 @@ public class Game {
     public static enum Action {
         NO_OP {
             @Override
-            void execute(Game game, PlayerEntity playerEntity) {}
+            int execute(Game game, PlayerEntity playerEntity) {return NO_KILL;}
         },
         TURN_RIGHT {
             @Override
-            void execute(Game game, PlayerEntity playerEntity) {
+            int execute(Game game, PlayerEntity playerEntity) {
                 int i = (playerEntity.getDirection().ordinal() + 1) % Direction.values().length;
                 playerEntity.setDirection(Direction.values()[i]);
                 game.view.updateMove(playerEntity.getX(),playerEntity.getY(),playerEntity.getX(),playerEntity.getY());
+                return NO_KILL;
             }
         },
         TURN_LEFT {
             @Override
-            void execute(Game game, PlayerEntity playerEntity) {
+            int execute(Game game, PlayerEntity playerEntity) {
                 int i = (playerEntity.getDirection().ordinal() - 1) % Direction.values().length;
                 i = (Direction.values().length + i) % Direction.values().length;
                 playerEntity.setDirection(Direction.values()[i]);
                 game.view.updateMove(playerEntity.getX(),playerEntity.getY(),playerEntity.getX(),playerEntity.getY());
+                return NO_KILL;
             }
         },
         MOVE_FWD {
             @Override
-            void execute(Game game, PlayerEntity playerEntity) {
+            int execute(Game game, PlayerEntity playerEntity) {
                 int x = playerEntity.getX();
                 int y =  playerEntity.getY();
                 int nextX = x + playerEntity.getDirection().dx;
@@ -151,11 +153,13 @@ public class Game {
                     game.board[y][x] = game.factory.makeEntity(GameEntityType.BLANK, x, y);
                     game.view.updateMove(x,y,nextX,nextY);
                 }
+                return NO_KILL;
             }
         },
         SHOOT {
             @Override
-            void execute(Game game, PlayerEntity playerEntity) {
+            int execute(Game game, PlayerEntity playerEntity) {
+                int kill = NO_KILL;
                 int x = playerEntity.getX();
                 int y = playerEntity.getY();
                 do{
@@ -168,13 +172,19 @@ public class Game {
                     wounded.setLife(wounded.getLife() - 1);
                     if(wounded.getLife() == 0){
                         game.board[y][x] = game.factory.makeEntity(GameEntityType.BLANK, x, y);
+                        if(wounded.getType().equals(GameEntityType.PLAYER)){
+                            kill = (int) wounded.getID();
+                        }
                     }
                 }
 
                 game.view.updateShot(playerEntity.getX(),playerEntity.getY(),x,y);
+                return kill;
             }
         };
 
-        abstract void execute(Game game, PlayerEntity playerEntity);
+        private static final int NO_KILL = -1;
+
+        abstract int execute(Game game, PlayerEntity playerEntity);
     }
 }
