@@ -6,8 +6,11 @@ import battlegrid.abstracts.Player;
 import battlegrid.game.execution.Game;
 
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+
+import static battlegrid.setup.GameProperties.*;
 
 /**
  * Names: Itay Sabato, Rotem Barzilay <br/>
@@ -22,9 +25,11 @@ public class AStarPlayer implements Player {
     private StateFactory stateFactory;
     private Queue<State> active = new PriorityQueue<State>();
 
+    public void setAttributes(Map<String, String> playerAttributes) {
+        maxDepth = Integer.parseInt(playerAttributes.get("Player.maxExplore"));
+    }
 
     public void init(GameEntityInfo[][] gameState, GameEntityInfo myState) {
-        maxDepth = 999;
         stateFactory = new AStarStateFactory();
     }
 

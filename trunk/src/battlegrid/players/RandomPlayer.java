@@ -5,6 +5,7 @@ import battlegrid.abstracts.GameEntityInfo;
 import battlegrid.abstracts.Player;
 import battlegrid.game.execution.Game;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -19,6 +20,10 @@ public class RandomPlayer implements Player  {
 
     public  RandomPlayer(){
         generator = new Random();
+    }
+
+    public void setAttributes(Map<String, String> playerAttributes) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void init(GameEntityInfo[][] gameState, GameEntityInfo myState) {}

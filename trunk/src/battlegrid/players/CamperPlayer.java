@@ -3,6 +3,8 @@ package battlegrid.players;
 import battlegrid.abstracts.*;
 import battlegrid.game.execution.Game;
 
+import java.util.Map;
+
 /**
  * Names: Itay Sabato, Rotem Barzilay <br/>
  * Logins: itays04, rotmus <br/>
@@ -13,6 +15,10 @@ import battlegrid.game.execution.Game;
 public class CamperPlayer implements Player {
 
     private int turns;
+
+    public void setAttributes(Map<String, String> playerAttributes) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 
     public void init(GameEntityInfo[][] gameState, GameEntityInfo myState) {
         turns = 0;

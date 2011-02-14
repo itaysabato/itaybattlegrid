@@ -1,5 +1,7 @@
 package battlegrid.abstracts;
 
+import java.util.Map;
+
 /**
  * Names: Itay Sabato, Rotem Barzilay <br/>
  * Logins: itays04, rotmus <br/>
@@ -10,4 +12,5 @@ package battlegrid.abstracts;
 public interface Player {
     void init(GameEntityInfo[][] gameState, GameEntityInfo myState);
     void doAction(GameEntityInfo[][] gameState, GameEntityInfo myState, ActionHolder toDo);
+    void setAttributes(Map<String, String> playerAttributes);
 }
