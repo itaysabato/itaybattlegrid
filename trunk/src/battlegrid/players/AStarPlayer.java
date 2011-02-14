@@ -24,7 +24,7 @@ public class AStarPlayer implements Player {
 
 
     public void init(GameEntityInfo[][] gameState, GameEntityInfo myState) {
-        maxDepth = 300;
+        maxDepth = 999;
         stateFactory = new AStarStateFactory();
     }
 
