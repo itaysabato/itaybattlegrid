@@ -129,28 +129,60 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
         private int calc(int min, int dx, int dy, int dxy) {
             int myDir =myState.getDirection().ordinal();
             Direction wantedDir = Direction.NORTH;
+            int wallsFee = 0;
+            int addX = 0;
+            int addY = 0;
+            if(enemy.getX()-myState.getX()!=0){
+                addX = (enemy.getX()-myState.getX())/Math.abs(enemy.getX()-myState.getX());
+            }
+            if(enemy.getY()-myState.getY()!=0){
+                addY = (enemy.getY()-myState.getY())/Math.abs(enemy.getY()-myState.getY());
+            }
+            int x  = myState.getX(), y = myState.getY();
+
             if(dx==min){
+                while(x!=enemy.getX()){
+                    if(gameState[y][x].getType().equals(GameEntityType.WALL))
+                        wallsFee +=  gameState[y][x].getLife();
+                    x += addX;
+                }
+                while(y!=enemy.getY()){
+                    if(gameState[y][x].getType().equals(GameEntityType.WALL))
+                        wallsFee +=  gameState[y][x].getLife();
+                    y += addY;
+                }
                 if(dx==0){
                     wantedDir = (enemy.getY()<myState.getY())?Direction.NORTH:Direction.SOUTH;
                 }
                 else{
                     if(enemy.getX()>myState.getX()) {
-                        wantedDir = (enemy.getY()<myState.getY())?Direction.NORTH_EAST:Direction.SOUTH_EAST;
+                        wantedDir = Direction.EAST;
                     }
                     else{
-                        wantedDir = (enemy.getY()<myState.getY())?Direction.NORTH_WEST:Direction.SOUTH_WEST;
+                        wantedDir = Direction.WEST;
                     }
                 }
             }
             else if(dy==min){
+                while(y!=enemy.getY()){
+                    if(gameState[y][x].getType().equals(GameEntityType.WALL))
+                        wallsFee +=  gameState[y][x].getLife();
+                    y += addY;
+                }
+                while(x!=enemy.getX()){
+                    if(gameState[y][x].getType().equals(GameEntityType.WALL))
+                        wallsFee +=  gameState[y][x].getLife();
+                    x += addX;
+                }
                 if(dy==0){
                     wantedDir = (enemy.getX()>myState.getX())?Direction.EAST:Direction.WEST;
                 }
                 else{
                     if(enemy.getY()<myState.getY()) {
-                        wantedDir = (enemy.getX()>myState.getX())?Direction.NORTH_EAST:Direction.NORTH_WEST;                    }
+                        wantedDir = Direction.NORTH;
+                    }
                     else{
-                        wantedDir = (enemy.getX()>myState.getX())?Direction.SOUTH_EAST:Direction.SOUTH_WEST;
+                        wantedDir = Direction.SOUTH;
                     }
                 }
             }
@@ -164,17 +196,34 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                 }
                 else{
                     if(dx<dy) {
-                        wantedDir = (enemy.getY()<myState.getY())?Direction.NORTH:Direction.SOUTH;                    }
+                        wantedDir = (enemy.getY()<myState.getY())?Direction.NORTH:Direction.SOUTH;
+                        while(Math.abs(enemy.getY()-y)!=dx){
+                            if(gameState[y][x].getType().equals(GameEntityType.WALL))
+                                wallsFee +=  gameState[y][x].getLife();
+                            y += addY;
+                        }
+                    }
                     else{
                         wantedDir = (enemy.getX()>myState.getX())?Direction.EAST:Direction.WEST;
+                        while(Math.abs(enemy.getX()-x)!=dy){
+                            if(gameState[y][x].getType().equals(GameEntityType.WALL))
+                                wallsFee +=  gameState[y][x].getLife();
+                            x += addX;
+                        }
                     }
+                }
+                while(x!=enemy.getX() &&y!=enemy.getY()){
+                    if(gameState[y][x].getType().equals(GameEntityType.WALL))
+                        wallsFee +=  gameState[y][x].getLife();
+                    x += addX;
+                    y += addY;
                 }
             }
             int dDir = Math.abs(myDir-wantedDir.ordinal());
             int rotate =  (myDir<wantedDir.ordinal())? Math.min(dDir, Math.abs(myDir+Direction.values().length-wantedDir.ordinal())):
                     Math.min(dDir, Math.abs(wantedDir.ordinal()+Direction.values().length-myDir));
 
-            return min+rotate;
+            return min+rotate+wallsFee;
         }
 
         public Game.Action getRootAction() {
