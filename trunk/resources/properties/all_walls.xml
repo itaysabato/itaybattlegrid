@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-2"?>
 <Properties>
     <Players>
-        <Player name="Player1" className="CamperPlayer" direction="SOUTH" life="3" color="BLACK"/>
+        <Player name="Player1" className="RandomPlayer" direction="SOUTH" life="3" color="BLACK"/>
         <Player name="Player2" className="AStarPlayer" direction="WEST" life="3" color="RED" maxExplore= "500" />
     </Players>
 
@@ -35,9 +35,9 @@
 
     <Board>
         <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
-        <Row><BORDER/><PLAYER   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
         <Row><BORDER/><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
         <Row><BORDER/><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
+        <Row><BORDER/><WALL   /><WALL   /><WALL   /><WALL   /><PLAYER   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
         <Row><BORDER/><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
         <Row><BORDER/><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><BORDER/></Row>
         <Row><BORDER/><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><WALL   /><PLAYER   /><BORDER/></Row>

@@ -74,7 +74,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
             Direction dir = this.myState.getDirection();
             int x = myState.getX(), y = myState.getY();
             int enemyX = enemy.getX(), enemyY = enemy.getY();
-            boolean goal = false;
+
             switch (toDo) {
                 case TURN_RIGHT:
                     int i = (this.myState.getDirection().ordinal() + 1) % Direction.values().length;
@@ -102,7 +102,6 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
 
                     if(row==enemyY && col==enemyX){
                         enemy.setLife(enemy.getLife()-1);
-                        goal = true;
                     }
                     else if(gameState[row][col].getType().equals(GameEntityType.WALL)){
                         gameState[row][col].setLife(gameState[row][col].getLife()-1);
@@ -112,7 +111,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                     }
                     break;
             }
-            heuristicValue = goal?0:calculateHeuristic();
+            heuristicValue = calculateHeuristic();
         }
 
         private int calculateHeuristic() {
@@ -139,16 +138,18 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                 addY = (enemy.getY()-myState.getY())/Math.abs(enemy.getY()-myState.getY());
             }
             int x  = myState.getX(), y = myState.getY();
-
+            boolean flag = false;
             if(dx==min){
                 while(x!=enemy.getX()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
+                    flag = gameState[y][x].getType().equals(GameEntityType.BORDER);
                     x += addX;
                 }
                 while(y!=enemy.getY()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
+                    flag = flag || gameState[y][x].getType().equals(GameEntityType.BORDER);
                     y += addY;
                 }
                 if(dx==0){
@@ -163,15 +164,18 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                     }
                 }
             }
-            else if(dy==min){
+            else if(dy==min || flag){
+                flag = false;
                 while(y!=enemy.getY()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
+                    flag = gameState[y][x].getType().equals(GameEntityType.BORDER);
                     y += addY;
                 }
                 while(x!=enemy.getX()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
+                    flag = flag || gameState[y][x].getType().equals(GameEntityType.BORDER);
                     x += addX;
                 }
                 if(dy==0){
@@ -186,7 +190,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                     }
                 }
             }
-            else if(dxy==min){
+            else if(dxy==min || flag){
                 if(dxy==0){
                     if(enemy.getY()<myState.getY()) {
                         wantedDir = (enemy.getX()>myState.getX())?Direction.NORTH_EAST:Direction.NORTH_WEST;                    }
@@ -200,6 +204,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                         while(Math.abs(enemy.getY()-y)!=dx){
                             if(gameState[y][x].getType().equals(GameEntityType.WALL))
                                 wallsFee +=  gameState[y][x].getLife();
+                            flag =  gameState[y][x].getType().equals(GameEntityType.BORDER);
                             y += addY;
                         }
                     }
@@ -208,6 +213,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                         while(Math.abs(enemy.getX()-x)!=dy){
                             if(gameState[y][x].getType().equals(GameEntityType.WALL))
                                 wallsFee +=  gameState[y][x].getLife();
+                            flag =  gameState[y][x].getType().equals(GameEntityType.BORDER);
                             x += addX;
                         }
                     }
@@ -215,6 +221,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                 while(x!=enemy.getX() &&y!=enemy.getY()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
+                    flag =  flag || gameState[y][x].getType().equals(GameEntityType.BORDER);
                     x += addX;
                     y += addY;
                 }
@@ -223,6 +230,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
             int rotate =  (myDir<wantedDir.ordinal())? Math.min(dDir, Math.abs(myDir+Direction.values().length-wantedDir.ordinal())):
                     Math.min(dDir, Math.abs(wantedDir.ordinal()+Direction.values().length-myDir));
 
+            if(flag) return 2000;
             return min+rotate+wallsFee;
         }
 
