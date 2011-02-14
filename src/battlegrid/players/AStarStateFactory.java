@@ -21,10 +21,12 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
         List<AStarPlayer.State> states = new ArrayList<AStarPlayer.State>();
 
         for(Game.Action action : Game.Action.values()){
-            MyEntityInfo[][] gameCopy = copy(gameState);
-            int[] enemyPos = findEnemy(gameState,myState);
-            int[] myPos = {myState.getX(),myState.getY()};
-            states.add(new AStarState(gameCopy, myPos, enemyPos ,action, action,0));
+            if(!action.equals(Game.Action.NO_OP)){
+                MyEntityInfo[][] gameCopy = copy(gameState);
+                int[] enemyPos = findEnemy(gameState,myState);
+                int[] myPos = {myState.getX(),myState.getY()};
+                states.add(new AStarState(gameCopy, myPos, enemyPos ,action, action,0));
+            }
         }
         return states;
     }
@@ -89,7 +91,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                         this.myState.setXY(x+dir.dx,y+dir.dy);
                         gameState[y][x] = new MyEntityInfo(x,y);
                     }
-                    break;                                        
+                    break;
                 case SHOOT:
                     int row = y+dir.dy;
                     int col = x+dir.dx;
@@ -105,7 +107,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                     else if(gameState[row][col].getType().equals(GameEntityType.WALL)){
                         gameState[row][col].setLife(gameState[row][col].getLife()-1);
                         if(gameState[row][col].getLife()<=0){
-                            gameState[row][col] = new MyEntityInfo(col,row);     
+                            gameState[row][col] = new MyEntityInfo(col,row);
                         }
                     }
                     break;
@@ -186,7 +188,8 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
             int[] myPos =  {myState.getX(), myState.getY()};
             int[] enemyPos =  {enemy.getX(), enemy.getY()};
             for(Game.Action action : Game.Action.values()){
-                states.add(new AStarState(copy(gameState), myPos, enemyPos, rootAction, action,pathValue+1));
+                if(!action.equals(Game.Action.NO_OP))
+                    states.add(new AStarState(copy(gameState), myPos, enemyPos, rootAction, action,pathValue+1));
             }
             return states;
         }
