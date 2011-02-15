@@ -52,6 +52,10 @@ public class AStarPlayer implements Player {
         toDo.setAction(active.remove().getRootAction());
     }
 
+    public void gameOver(boolean youWin) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     interface State extends Comparable<State> {
         Game.Action getRootAction();
         List<State> spawn();

@@ -36,4 +36,8 @@ public class HumanPlayer implements Player {
         else if(act.equals("4"))  toDo.setAction(Game.Action.MOVE_FWD);
         else if(act.equals("3"))  toDo.setAction(Game.Action.SHOOT);
     }
+
+    public void gameOver(boolean youWin) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

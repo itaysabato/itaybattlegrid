@@ -32,4 +32,8 @@ public class RandomPlayer implements Player  {
         int x  = generator.nextInt(Game.Action.values().length - 1);
         toDo.setAction(Game.Action.values()[x+1]);
     }
+
+    public void gameOver(boolean youWin) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

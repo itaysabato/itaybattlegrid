@@ -46,4 +46,8 @@ public class CamperPlayer implements Player {
             }
         }
     }
+
+    public void gameOver(boolean youWin) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

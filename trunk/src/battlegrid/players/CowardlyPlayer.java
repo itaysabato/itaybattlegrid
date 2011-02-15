@@ -25,4 +25,8 @@ public class CowardlyPlayer implements Player {
     public void doAction(GameEntityInfo[][] gameState, GameEntityInfo myState, ActionHolder toDo) {
         
     }
+
+    public void gameOver(boolean youWin) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
