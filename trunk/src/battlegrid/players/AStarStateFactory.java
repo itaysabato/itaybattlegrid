@@ -16,6 +16,11 @@ import java.util.List;
  * Time: 15:49:58 <br/>
  */
 public class AStarStateFactory implements AStarPlayer.StateFactory {
+    private static List<AStarPlayer.State> closed;
+
+    public AStarStateFactory(List<AStarPlayer.State> closed) {
+        this.closed = closed;
+    }
 
     public List<AStarPlayer.State> getInitialStates(GameEntityInfo[][] gameState, GameEntityInfo myState) {
         List<AStarPlayer.State> states = new ArrayList<AStarPlayer.State>();
@@ -62,6 +67,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
         private  MyEntityInfo[][] gameState;
         private MyEntityInfo myState;
         private MyEntityInfo enemy;
+        private static final int MAX_VALUE = 99999;
 
 
         public AStarState(MyEntityInfo[][] gameState, int[] myPos, int[] enemyPos,Game.Action root, Game.Action toDo, int pathValue) {
@@ -143,13 +149,13 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                 while(x!=enemy.getX()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
-                    flag = gameState[y][x].getType().equals(GameEntityType.BORDER);
+                    if(gameState[y][x].getType().equals(GameEntityType.BORDER)) flag = true;
                     x += addX;
                 }
                 while(y!=enemy.getY()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
-                    flag = flag || gameState[y][x].getType().equals(GameEntityType.BORDER);
+                    if(gameState[y][x].getType().equals(GameEntityType.BORDER)) flag = true;
                     y += addY;
                 }
                 if(dx==0){
@@ -169,13 +175,13 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                 while(y!=enemy.getY()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
-                    flag = gameState[y][x].getType().equals(GameEntityType.BORDER);
+                    if(gameState[y][x].getType().equals(GameEntityType.BORDER)) flag = true;
                     y += addY;
                 }
                 while(x!=enemy.getX()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
-                    flag = flag || gameState[y][x].getType().equals(GameEntityType.BORDER);
+                    if(gameState[y][x].getType().equals(GameEntityType.BORDER)) flag = true;
                     x += addX;
                 }
                 if(dy==0){
@@ -191,6 +197,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                 }
             }
             else if(dxy==min || flag){
+                flag = false;
                 if(dxy==0){
                     if(enemy.getY()<myState.getY()) {
                         wantedDir = (enemy.getX()>myState.getX())?Direction.NORTH_EAST:Direction.NORTH_WEST;                    }
@@ -204,7 +211,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                         while(Math.abs(enemy.getY()-y)!=dx){
                             if(gameState[y][x].getType().equals(GameEntityType.WALL))
                                 wallsFee +=  gameState[y][x].getLife();
-                            flag =  gameState[y][x].getType().equals(GameEntityType.BORDER);
+                            if(gameState[y][x].getType().equals(GameEntityType.BORDER)) flag = true;
                             y += addY;
                         }
                     }
@@ -213,7 +220,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                         while(Math.abs(enemy.getX()-x)!=dy){
                             if(gameState[y][x].getType().equals(GameEntityType.WALL))
                                 wallsFee +=  gameState[y][x].getLife();
-                            flag =  gameState[y][x].getType().equals(GameEntityType.BORDER);
+                            if(gameState[y][x].getType().equals(GameEntityType.BORDER)) flag = true;
                             x += addX;
                         }
                     }
@@ -221,7 +228,7 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
                 while(x!=enemy.getX() &&y!=enemy.getY()){
                     if(gameState[y][x].getType().equals(GameEntityType.WALL))
                         wallsFee +=  gameState[y][x].getLife();
-                    flag =  flag || gameState[y][x].getType().equals(GameEntityType.BORDER);
+                    if(gameState[y][x].getType().equals(GameEntityType.BORDER)) flag = true;
                     x += addX;
                     y += addY;
                 }
@@ -230,7 +237,9 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
             int rotate =  (myDir<wantedDir.ordinal())? Math.min(dDir, Math.abs(myDir+Direction.values().length-wantedDir.ordinal())):
                     Math.min(dDir, Math.abs(wantedDir.ordinal()+Direction.values().length-myDir));
 
-            if(flag) return 2000;
+            if(flag) {
+                return MAX_VALUE;
+            }
             return min+rotate+wallsFee;
         }
 
@@ -245,8 +254,9 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
             int[] myPos =  {myState.getX(), myState.getY()};
             int[] enemyPos =  {enemy.getX(), enemy.getY()};
             for(Game.Action action : Game.Action.values()){
-                if(!action.equals(Game.Action.NO_OP))
-                    states.add(new AStarState(copy(gameState), myPos, enemyPos, rootAction, action,pathValue+1));
+                AStarState newState = new AStarState(copy(gameState), myPos, enemyPos, rootAction, action,pathValue+1);
+                if(!action.equals(Game.Action.NO_OP) && !closed.contains(newState))
+                    states.add(newState);
             }
             return states;
         }
@@ -262,6 +272,22 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
         public int compareTo(AStarPlayer.State other) {
             return heuristicValue + pathValue - other.getHeuristicValue() - other.getPathValue();
         }
+
+        public boolean equals(Object obj){
+            AStarState other = (AStarState) obj;
+            for(int i = 0;i<gameState.length;i++){
+                for(int j = 0;j<gameState[0].length;j++){
+                    if(gameState[i][j].canShoot!=other.gameState[i][j].canShoot) return false;
+                    if(gameState[i][j].direction!=other.gameState[i][j].direction) return false;
+                    if(gameState[i][j].life!=other.gameState[i][j].life) return false;
+                    if(gameState[i][j].TYPE!=other.gameState[i][j].TYPE) return false;
+                    if(gameState[i][j].x!=other.gameState[i][j].x) return false;
+                    if(gameState[i][j].y!=other.gameState[i][j].y) return false;
+                }
+            }
+            return true;
+        }
+
     }
 
     private static class MyEntityInfo implements GameEntityInfo {
