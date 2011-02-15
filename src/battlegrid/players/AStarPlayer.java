@@ -5,10 +5,7 @@ import battlegrid.abstracts.GameEntityInfo;
 import battlegrid.abstracts.Player;
 import battlegrid.game.execution.Game;
 
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 import static battlegrid.setup.GameProperties.*;
 
@@ -23,6 +20,7 @@ public class AStarPlayer implements Player {
 
     private int maxDepth;
     private StateFactory stateFactory;
+    private List<State> closed;
     private Queue<State> active = new PriorityQueue<State>();
 
     public void setAttributes(Map<String, String> playerAttributes) {
@@ -30,11 +28,14 @@ public class AStarPlayer implements Player {
     }
 
     public void init(GameEntityInfo[][] gameState, GameEntityInfo myState) {
-        stateFactory = new AStarStateFactory();
+        closed = new ArrayList<State>();
+        stateFactory = new AStarStateFactory(closed);
+
     }
 
     public void doAction(GameEntityInfo[][] gameState, GameEntityInfo myState, ActionHolder toDo) {
         active.clear();
+        closed.clear();
         active.addAll(stateFactory.getInitialStates(gameState,myState));
 
         for(int i = 0; i < maxDepth; i++){
@@ -43,7 +44,10 @@ public class AStarPlayer implements Player {
                 toDo.setAction(best.getRootAction());
                 return;
             }
-            active.addAll(best.spawn());
+            if(!closed.contains(best)) {
+                active.addAll(best.spawn());
+                closed.add(best);
+            } 
         }
         toDo.setAction(active.remove().getRootAction());
     }

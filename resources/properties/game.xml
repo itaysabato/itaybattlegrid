@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-2"?>
 <Properties>
     <Players>
-        <Player name="Player1" className="AStarPlayer" direction="SOUTH" life="3" color="BLACK" maxExplore="500"/>
+        <Player name="Player1" className="AStarPlayer" direction="SOUTH" life="3" color="BLACK" maxExplore="1000"/>
         <Player name="Player2" className="RandomPlayer" direction="WEST" life="3" color="RED"/>
     </Players>
 
@@ -39,8 +39,8 @@
         <Row><BORDER/><BLANK   /><WALL /><BORDER /><WALL /><WALL /><WALL /><BLANK /><BLANK /><BORDER/></Row>
         <Row><BORDER/><BLANK   /><WALL /><BORDER/><BORDER /><BORDER /><WALL /><WALL /><BLANK /><BORDER/></Row>
         <Row><BORDER/><BORDER/><BORDER/><BORDER/><WALL /><BORDER /><WALL /><WALL /><BLANK /><BORDER/></Row>
-        <Row><BORDER/><BORDER/><BORDER/><BLANK /><BLANK /><WALL /><BLANK /><WALL /><BLANK /><BORDER/></Row>
-        <Row><BORDER/><BLANK   /><BLANK /><PLAYER /><BLANK /><BLANK /><BLANK /><BLANK /><BLANK /><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BLANK /><WALL /><BLANK /><WALL /><BLANK /><BORDER/></Row>
+        <Row><BORDER/><BLANK   /><PLAYER /><WALL /><WALL /><BLANK /><BLANK /><BLANK /><BLANK /><BORDER/></Row>
         <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
     </Board>
 </Properties>
