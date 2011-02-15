@@ -10,7 +10,8 @@ import java.util.Map;
  * Time: 16:08:16 <br/>
  */
 public interface Player {
+    void setAttributes(Map<String, String> playerAttributes);
     void init(GameEntityInfo[][] gameState, GameEntityInfo myState);
     void doAction(GameEntityInfo[][] gameState, GameEntityInfo myState, ActionHolder toDo);
-    void setAttributes(Map<String, String> playerAttributes);
+    void gameOver(boolean youWin);
 }

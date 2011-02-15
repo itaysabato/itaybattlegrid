@@ -11,4 +11,5 @@ import battlegrid.game.execution.Game;
  */
 public interface Rewarder {
     double getReward(QState previous, Game.Action lastAction, QState current);
+    double terminal(boolean youWin);
 }
