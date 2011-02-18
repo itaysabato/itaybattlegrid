@@ -273,7 +273,12 @@ public class AStarStateFactory implements AStarPlayer.StateFactory {
             return heuristicValue + pathValue - other.getHeuristicValue() - other.getPathValue();
         }
 
+        @Override
         public boolean equals(Object obj){
+            if(!(obj instanceof AStarState )){
+                return false;
+            }
+            
             AStarState other = (AStarState) obj;
             for(int i = 0;i<gameState.length;i++){
                 for(int j = 0;j<gameState[0].length;j++){
