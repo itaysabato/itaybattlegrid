@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-2"?>
+<Properties>
+    <Players>
+        <Player name="Player1" className="AStarPlayer" direction="SOUTH" life="3" color="BLACK" maxExplore="1500"/>
+        <Player name="Player2" className="RandomPlayer" direction="WEST" life="3" color="RED"/>
+    </Players>
+
+    <Misc>
+        <Square height="80" width="80"/>
+        <Game showView="true" numRounds="5"/>
+        <Round time="100"/>
+        <Shot time="40"/>
+        <WALL life="2"/>
+        <BORDER life="-1"/>
+        <BLANK life="-1"/>
+    </Misc>
+
+    <Images>
+        <Direction NORTH="up.png"/>
+        <Direction NORTH_EAST="upRight.png"/>
+        <Direction EAST="right.png"/>
+        <Direction SOUTH_EAST="downRight.png"/>
+        <Direction SOUTH="down.png"/>
+        <Direction SOUTH_WEST="downLeft.png"/>
+        <Direction WEST="left.png"/>
+        <Direction NORTH_WEST="upLeft.png"/>
+
+        <WALL image="wall.png"/>
+        <BROKEN_WALL image="wall2.png"/>
+        <BORDER image="border.png"/>
+        <BLANK image="bg.png"/>
+        <Shot image="shot.png"/>
+        <Hit image="hit.png"/>
+    </Images>
+
+    <Board>
+        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
+        <Row><BORDER/><BORDER/><PLAYER/><BLANK  /><BLANK  /><BLANK   /><BLANK /><BLANK  /><BORDER /><BORDER/></Row>
+        <Row><BORDER/><BLANK  /><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BLANK /><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BLANK  /><BLANK  /><BLANK  /><BLANK   /><BLANK /><BLANK  /><BORDER /><BORDER/></Row>
+        <Row><BORDER/><WALL  /><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><WALL /><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BLANK  /><BLANK  /><BLANK  /><BLANK   /><BLANK /><BLANK  /><BORDER /><BORDER/></Row>
+        <Row><BORDER/><BLANK  /><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BLANK  /><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BLANK  /><BLANK  /><BLANK  /><BLANK   /><BLANK /><PLAYER/><BORDER /><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
+    </Board>
+</Properties>

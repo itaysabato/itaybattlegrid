@@ -47,7 +47,7 @@ public class AStarPlayer implements Player {
             if(!closed.contains(best)) {
                 active.addAll(best.spawn());
                 closed.add(best);
-            } 
+            }
         }
         toDo.setAction(active.remove().getRootAction());
     }
