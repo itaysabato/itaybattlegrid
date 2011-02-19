@@ -13,29 +13,30 @@ import battlegrid.abstracts.GameEntityType;
  */
 public class QState {
 
-    private final short myDirection;
-    private final short hisDirection;
-    private final short isLockedOnHim;
-    private final short isLockedOnMe;
-    private final short lifeDiff;
-    private final short quarter;
-    private final short frontWall;
-    private final short leftWall;
-    private final short rightWall;
-    private static final short NORTH_EAST = 0;
-    private static final short SOUTH_EAST = 1;
-    private static final short SOUTH_WEST = 2;
-    private static final short NORTH_WEST = 3;
-    private static final short WIN = 0;
-    private static final short TIE = 1;
-    private static final short LOSS = 2;
+    static final short NORTH_EAST = 0;
+    static final short SOUTH_EAST = 1;
+    static final short SOUTH_WEST = 2;
+    static final short NORTH_WEST = 3;
+    static final short ADVANTAGE = 0;
+    static final short TIE = 1;
+    static final short NEG = 2;
+
+    final short myDirection;
+    final short hisDirection;
+    final short isLockedOnHim;
+    final short isLockedOnMe;
+    final short lifeDiff;
+    final short quarter;
+    final short frontWall;
+    final short leftWall;
+    final short rightWall;
 
     public QState(GameEntityInfo[][] gameState, GameEntityInfo myState) {
         GameEntityInfo enemy = findEnemy(gameState,myState);
         myDirection = calcDirection(gameState, myState, enemy ,true);
         hisDirection = calcDirection(gameState, myState, enemy, false);
-        isLockedOnMe = calcLocked(gameState, myState, enemy, true);
-        isLockedOnHim = calcLocked(gameState, myState, enemy, false);
+        isLockedOnMe = calcLocked(gameState, enemy);
+        isLockedOnHim = calcLocked(gameState, myState);
         lifeDiff = calcLifeDiff(gameState, myState, enemy);
         quarter = calcQuarter(gameState, myState, enemy);
         frontWall = calcWall(gameState, myState, enemy, Direction.NORTH);
@@ -75,7 +76,7 @@ public class QState {
             else return 0;
         }
         else if(direction.equals(Direction.WEST)) {
-             myDirection = values[(myDirection.ordinal()-1+values.length)%values.length];
+            myDirection = values[(myDirection.ordinal()-1+values.length)%values.length];
             GameEntityInfo left = gameState[myY+myDirection.dy][myX+myDirection.dx];
 
             if(left.equals(GameEntityType.WALL) || left.equals(GameEntityType.BORDER)) return 1;
@@ -98,13 +99,24 @@ public class QState {
     }
 
     private short calcLifeDiff(GameEntityInfo[][] gameState, GameEntityInfo myState, GameEntityInfo enemy) {
-        if(myState.getLife()>enemy.getLife())  return WIN;
+        if(myState.getLife()>enemy.getLife())  return ADVANTAGE;
         else if(myState.getLife()>enemy.getLife()) return TIE;
-        else return LOSS;
+        else return NEG;
     }
 
-    private short calcLocked(GameEntityInfo[][] gameState, GameEntityInfo myState, GameEntityInfo enemy, boolean my) {
-        return 0;  //To change body of created methods use File | Settings | File Templates.
+    private short calcLocked(GameEntityInfo[][] gameState, GameEntityInfo shooter) {
+        int x = shooter.getX();
+        int y = shooter.getY();
+        do{
+            x += shooter.getDirection().dx;
+            y += shooter.getDirection().dy;
+        } while(gameState[y][x].getType().equals(GameEntityType.BLANK));
+        if(gameState[y][x].getType().equals(GameEntityType.PLAYER)){
+            return 1;
+        }
+        else {
+            return 0;
+        }
     }
 
     private short calcDirection(GameEntityInfo[][] gameState, GameEntityInfo myState, GameEntityInfo enemy, boolean my) {

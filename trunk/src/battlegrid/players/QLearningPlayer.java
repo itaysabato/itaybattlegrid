@@ -31,9 +31,9 @@ public class QLearningPlayer implements Player {
     private Map<QState, double[]> Q = new HashMap<QState,double[]>();
 
     public void setAttributes(Map<String, String> playerAttributes) {
-        alpha = Integer.parseInt(playerAttributes.get("Player.alpha"));
-        gamma = Integer.parseInt(playerAttributes.get("Player.gamma"));
-        epsilon = Integer.parseInt(playerAttributes.get("Player.epsilon"));
+        alpha = Double.parseDouble(playerAttributes.get("Player.alpha"));
+        gamma = Double.parseDouble(playerAttributes.get("Player.gamma"));
+        epsilon = Double.parseDouble(playerAttributes.get("Player.epsilon"));
         trainingDuration = Integer.parseInt(playerAttributes.get("Player.trainingDuration"));
         rewarder = new QRewarder();
     }
@@ -49,8 +49,13 @@ public class QLearningPlayer implements Player {
 
         if(numEpisodes <= trainingDuration && previous != null) {
             updateQ(rewarder.getReward(previous, lastAction, current), getBestPair(current)[1]);
+            lastAction = chooseAction(current);
         }
-        toDo.setAction(chooseAction(current));
+        else {
+            lastAction =  Game.Action.values()[(int) getBestPair(current)[0]];
+        }
+        previous = current;
+        toDo.setAction(lastAction);                    
     }
 
     private void updateQ(double reward, double nextReward) {
