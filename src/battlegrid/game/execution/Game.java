@@ -55,7 +55,9 @@ public class Game {
         while(playerEntities.size() > 1) {
             nextRound();
         }
-        return (int) playerEntities.get(0).getID();
+        PlayerEntity player = playerEntities.get(0);
+        player.getPlayer().gameOver(true);        
+        return (int) player.getID();
     }
 
     private void nextRound() {
@@ -85,7 +87,8 @@ public class Game {
             actionHolder.setAction(Action.NO_OP);
         }
         if(kill != Action.NO_KILL) {
-            playerEntities.remove(kill);
+           PlayerEntity player = playerEntities.remove(kill);
+            player.getPlayer().gameOver(false);
         }
         
         long roundTime = GameProperties.getGameProperties().getIntProperty("Round.time");

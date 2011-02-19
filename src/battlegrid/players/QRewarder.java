@@ -12,7 +12,11 @@ import battlegrid.game.execution.Game;
 public class QRewarder implements Rewarder {
     
     public double getReward(QState previous, Game.Action lastAction, QState current) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        double reward = 0;
+        if(current.isLockedOnHim == 1) reward += 0.1;
+        if(current.lifeDiff == QState.ADVANTAGE) reward += 0.2;
+        else if(current.lifeDiff == QState.NEG) reward -= 0.2;
+        return reward;
     }
 
     public double terminal(boolean youWin) {

@@ -1,5 +1,6 @@
 package battlegrid.setup;
 
+import battlegrid.abstracts.GameEntityType;
 import battlegrid.game.GameView;
 import battlegrid.game.view.GameViewImpl;
 import battlegrid.abstracts.Player;
@@ -7,6 +8,7 @@ import battlegrid.game.execution.Game;
 import battlegrid.game.view.NullGameView;
 
 import java.io.File;
+import java.util.Arrays;
 
 import static battlegrid.setup.GameProperties.*;
 
@@ -26,30 +28,43 @@ public class XMLSetup {
 
             Player[] players = makePlayers();
             int[] scores = new int[players.length];
-            GameView view =  Boolean.valueOf(properties.getProperty("Game.showView")) ? new GameViewImpl(scores) : new NullGameView();
-            Game game = new Game(view);
+            GameView view;
 
-
-            for(int i = 0; i < properties.getIntProperty("Game.numRounds"); i++){
-                game.init(properties.getBoard(), players);
-                int winnerID = game.startGame();
-                scores[winnerID]++;
-                view.dispose();
+            if(Boolean.valueOf(properties.getProperty("Game.train"))){
+                System.out.println("Starting Training Phase:");
+                view =  Boolean.valueOf(properties.getProperty("Game.showTraining")) ? new GameViewImpl(scores) : new NullGameView();
+                runGames(players, scores, view,properties.getIntProperty("Game.trainingDuration"));
             }
 
-            for(int i = 0; i < scores.length; i++){
-                System.out.println(properties.getPlayerAttribute(i,"Player.name")+
-                        "("+properties.getPlayerAttribute(i,"Player.className")+")"
-                + " has a score of: "+scores[i]);
-            }
+            Arrays.fill(scores, 0);
+            System.out.println("Starting Final Phase:");
+            view =  Boolean.valueOf(properties.getProperty("Game.showView")) ? new GameViewImpl(scores) : new NullGameView();
+            runGames(players, scores, view,properties.getIntProperty("Game.numRounds"));
         }
-         catch (RuntimeException e){
+        catch (RuntimeException e){
             System.err.println("runtime exception thrown:");
             e.printStackTrace();
         }
         catch (Exception e){
             System.err.println("checked exception thrown during setup:");
             e.printStackTrace();
+        }
+    }
+
+    private static void runGames(Player[] players, int[] scores, GameView view, int numRounds) {
+        GameProperties properties = getGameProperties();
+        Game game = new Game(view);
+        for(int i = 0; i < numRounds; i++){
+            game.init(properties.getBoard(), players);
+            int winnerID = game.startGame();
+            scores[winnerID]++;
+            view.dispose();
+//            System.out.println(winnerID);
+        }
+        for(int i = 0; i < scores.length; i++){
+            System.out.println(properties.getPlayerAttribute(i,"Player.name")+
+                    "("+properties.getPlayerAttribute(i,"Player.className")+")"
+                    + " has a score of: "+scores[i]);
         }
     }
 

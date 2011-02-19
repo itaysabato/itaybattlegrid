@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-2"?>
 <Properties>
     <Players>
-        <Player name="Player1" className="CamperPlayer" direction="SOUTH" life="3" color="BLACK"/>
-        <Player name="Player2" className="AStarPlayer" direction="WEST" life="3" color="RED" maxExplore= "500" />
+        <Player name="Player1" className="AStarPlayer" direction="SOUTH" life="3" color="GREEN" maxExplore="1500"/>
+        <Player name="Player2" className="RandomPlayer" direction="WEST" life="3" color="YELLOW" />
     </Players>
 
     <Misc>
         <Square height="80" width="80"/>
-        <Game showView="true" numRounds="5"/>
+        <Game showView="true" numRounds="5" train="false" />
         <Round time="100"/>
         <Shot time="40"/>
         <WALL life="2"/>
