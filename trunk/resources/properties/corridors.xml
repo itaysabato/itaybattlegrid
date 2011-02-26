@@ -7,7 +7,7 @@
 
     <Misc>
         <Square height="80" width="80"/>
-        <Game showView="true" numRounds="20" train="true" trainingDuration="500" showTraining="false"/>
+        <Game showView="true" numRounds="20" train="true" trainingDuration="500" showTraining="true"/>
         <Round time="100"/>
         <Shot time="40"/>
         <WALL life="2"/>
@@ -36,12 +36,10 @@
     <Board>
         <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
         <Row><BORDER/><BORDER/><PLAYER/><BLANK  /><BLANK  /><BLANK   /><BLANK /><BLANK  /><BORDER /><BORDER/></Row>
-        <Row><BORDER/><BLANK  /><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BLANK /><BORDER/></Row>
-        <Row><BORDER/><BORDER/><BLANK  /><BLANK  /><BLANK  /><BLANK   /><BLANK /><BLANK  /><BORDER /><BORDER/></Row>
         <Row><BORDER/><WALL  /><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><WALL /><BORDER/></Row>
         <Row><BORDER/><BORDER/><BLANK  /><BLANK  /><BLANK  /><BLANK   /><BLANK /><BLANK  /><BORDER /><BORDER/></Row>
-        <Row><BORDER/><BLANK  /><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BLANK  /><BORDER/></Row>
-        <Row><BORDER/><BORDER/><BLANK  /><BLANK  /><BLANK  /><BLANK   /><BLANK /><PLAYER/><BORDER /><BORDER/></Row>
+        <Row><BORDER/><WALL  /><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><WALL /><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BLANK  /><BLANK  /><BLANK  /><BLANK   /><BLANK /><PLAYER  /><BORDER /><BORDER/></Row>
         <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
     </Board>
 </Properties>
