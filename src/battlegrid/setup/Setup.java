@@ -51,7 +51,7 @@ public class Setup {
         players[1] =  new RandomPlayer();
         GameViewImpl view = new GameViewImpl(null);
         Game game = new Game(view);
-        game.init(board, players);
+        game.init(board, players,100, false);
         System.out.println("The winner is player " + game.startGame());
         view.dispose();
     }

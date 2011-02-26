@@ -32,14 +32,14 @@ public class XMLSetup {
 
             if(Boolean.valueOf(properties.getProperty("Game.train"))){
                 System.out.println("Starting Training Phase:");
-                view =  Boolean.valueOf(properties.getProperty("Game.showTraining")) ? new GameViewImpl(scores) : new NullGameView();
-                runGames(players, scores, view,properties.getIntProperty("Game.trainingDuration"));
+                view =  Boolean.valueOf(properties.getProperty("Train.showView")) ? new GameViewImpl(scores) : new NullGameView();
+                runGames(players, scores, view,properties.getIntProperty("Train.numRounds"),properties.getIntProperty("Train.roundTime"));
             }
 
             Arrays.fill(scores, 0);
             System.out.println("Starting Final Phase:");
             view =  Boolean.valueOf(properties.getProperty("Game.showView")) ? new GameViewImpl(scores) : new NullGameView();
-            runGames(players, scores, view,properties.getIntProperty("Game.numRounds"));
+            runGames(players, scores, view,properties.getIntProperty("Game.numRounds"),properties.getIntProperty("Game.roundTime"));
         }
         catch (RuntimeException e){
             System.err.println("runtime exception thrown:");
@@ -51,11 +51,11 @@ public class XMLSetup {
         }
     }
 
-    private static void runGames(Player[] players, int[] scores, GameView view, int numRounds) {
+    private static void runGames(Player[] players, int[] scores, GameView view, int numRounds, long roundTime) {
         GameProperties properties = getGameProperties();
         Game game = new Game(view);
         for(int i = 0; i < numRounds; i++){
-            game.init(properties.getBoard(), players);
+            game.init(properties.getBoard(), players, roundTime, Boolean.valueOf(properties.getProperty("Random.players")));
             int winnerID = game.startGame();
             scores[winnerID]++;
             view.dispose();

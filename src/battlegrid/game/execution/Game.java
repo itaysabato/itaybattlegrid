@@ -7,6 +7,7 @@ import battlegrid.setup.GameProperties;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Names: Itay Sabato, Rotem Barzilay <br/>
@@ -16,19 +17,35 @@ import java.util.List;
  * Time: 15:59:11 <br/>
  */
 public class Game {
+    private Random rand = new Random();
     private GameView view;
     private GameEntityFactory factory;
     private GameEntity[][] board;
     private List<PlayerEntity> playerEntities;
+    private long roundTime;
 
     public Game(GameView view) {
         this.view = view;
     }
 
-    public void init(GameEntityType[][] boardDescriptor, Player[] players) {
+    public void init(GameEntityType[][] boardDescriptor, Player[] players, long roundTime, boolean randomizePlayers) {
+        boardDescriptor = copy(boardDescriptor);
+        this.roundTime = roundTime;
         playerEntities = new ArrayList<PlayerEntity>();
         board = new GameEntity[boardDescriptor.length][boardDescriptor[0].length];
         factory = new GameEntityFactory();
+
+        if(randomizePlayers){
+            int counter = 0;
+            while(counter < 2){
+                 int i = rand.nextInt(boardDescriptor.length -2) + 1;
+                 int j = rand.nextInt(boardDescriptor[0].length -2) + 1;
+                 if(boardDescriptor[i][j].equals(GameEntityType.BLANK)){
+                     boardDescriptor[i][j] =  GameEntityType.PLAYER;
+                     counter++;
+                 }
+            }
+        }
 
         int playerCounter = 0;
         for(int i = 0; i < board.length; i++){
@@ -90,8 +107,7 @@ public class Game {
            PlayerEntity player = playerEntities.remove(kill);
             player.getPlayer().gameOver(false);
         }
-        
-        long roundTime = GameProperties.getGameProperties().getIntProperty("Round.time");
+
         long passedTime = System.currentTimeMillis() - startTime;
 
         if(passedTime < roundTime){
@@ -105,6 +121,14 @@ public class Game {
 
     private static GameEntityInfo[][] copy(GameEntityInfo[][] board) {
         GameEntityInfo[][] duplicate = new GameEntityInfo[board.length][board[0].length];
+        for(int i = 0; i < board.length; i++){
+            System.arraycopy(board[i], 0, duplicate[i], 0, board[i].length);
+        }
+        return duplicate;
+    }
+
+    private static GameEntityType[][] copy(GameEntityType[][] board) {
+        GameEntityType[][] duplicate = new GameEntityType[board.length][board[0].length];
         for(int i = 0; i < board.length; i++){
             System.arraycopy(board[i], 0, duplicate[i], 0, board[i].length);
         }

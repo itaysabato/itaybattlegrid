@@ -13,13 +13,20 @@ public class QRewarder implements Rewarder {
     
     public double getReward(QState previous, Game.Action lastAction, QState current) {
         double reward = 0;
-        if(current.isLockedOnHim == 1) reward += 0.1;
-        if(current.lifeDiff == QState.ADVANTAGE) reward += 0.2;
-        else if(current.lifeDiff == QState.NEG) reward -= 0.2;
+        if(current.isLockedOnHim == 1) reward += 1;
+        if(current.isLockedOnMe == 1) reward -= 0.5;
+        if(current.lifeDiff == QState.ADVANTAGE) reward += 0.75;
+        if(current.quarter==current.myDirection) reward +=0.5;
+
+        if(current.lifeDiff<previous.lifeDiff) reward += 0.25;
+        if(current.isLockedOnHim>previous.isLockedOnHim) reward += 0.5;
+
+        if(previous.isLockedOnHim==1 && lastAction== Game.Action.SHOOT)  reward += 0.5;
+
         return reward;
     }
 
     public double terminal(boolean youWin) {
-        return youWin ? 1 : -1;
+        return youWin ? 9 : -2;
     }
 }
