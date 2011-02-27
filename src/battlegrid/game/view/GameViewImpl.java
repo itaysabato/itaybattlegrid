@@ -55,7 +55,7 @@ public class GameViewImpl implements GameView {
         JPanel topLeft= new JPanel();
         top.setLayout(new BoxLayout(top,BoxLayout.X_AXIS));
         topRight.setLayout(new BoxLayout(topRight,BoxLayout.Y_AXIS));
-        topLeft.setLayout(new GridLayout(playerEntities.length, 0));
+        topLeft.setLayout(new BoxLayout(topLeft,BoxLayout.Y_AXIS));
         window.add(top);
         top.add(topLeft);
         top.add(topRight);
@@ -66,19 +66,25 @@ public class GameViewImpl implements GameView {
         TitledBorder topLeftTitle = new TitledBorder("Players Info");
         topLeft.setBorder(topLeftTitle);
 
-        for(Component comp:topRight.getComponents()){
-            JComponent comp1 =  (JComponent)comp;
-            comp1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        }
         //setting info labels:
         for(int i = 0;i<playerEntities.length;i++) {
-            playersHealth[i] = new JLabel("health: "+playerEntities[i].getLife()) ;
-            topLeft.add(new JLabel("name: "+getGameProperties().getPlayerAttribute(i, "Player.name")));
-            topLeft.add(new JLabel("player type: "+getGameProperties().getPlayerAttribute(i, "Player.className")));
-            topLeft.add(new JLabel("color: "+getGameProperties().getPlayerAttribute(i, "Player.color")));
-            topLeft.add(playersHealth[i]);
-            topLeft.add(new JLabel("wins: "+scores[i]));
+            JPanel current = new JPanel();
+            current.setLayout(new BoxLayout(current,BoxLayout.X_AXIS));
+            topLeft.add(current);
+
+            playersHealth[i] = new JLabel("health - "+playerEntities[i].getLife()+"  |  ") ;
+            current.add(new JLabel("name - "+getGameProperties().getPlayerAttribute(i, "Player.name")+"  |  "));
+            current.add(new JLabel("type - "+getGameProperties().getPlayerAttribute(i, "Player.className")+"  |  "));
+            current.add(new JLabel("color - "+getGameProperties().getPlayerAttribute(i, "Player.color")+"  | "));
+            current.add(playersHealth[i]);
+            current.add(new JLabel("wins - "+scores[i]));
         }
+        for(Component comp:topLeft.getComponents()){
+            JComponent comp1 =  (JComponent)comp;
+            comp1.setAlignmentX(Component.LEFT_ALIGNMENT);
+        }
+
+
         //setting grid icons:
         for(int i = 0;i< cells.length;i++){
             for(int j = 0;j< cells[0].length;j++)   {
@@ -89,7 +95,7 @@ public class GameViewImpl implements GameView {
 
     private void updateInfo() {
         for(int i = 0;i<playerEntities.length;i++) {
-            playersHealth[i].setText("health: "+playerEntities[i].getLife()) ;
+            playersHealth[i].setText("health - "+playerEntities[i].getLife()+"  |  ") ;
         }
     }
 
@@ -117,8 +123,12 @@ public class GameViewImpl implements GameView {
                     label =  new JLabel(getGameProperties().getImage(gameState[i][j].getType()+".image"));
                 }
                 panel.add(label);
+                for(Component comp:panel.getComponents()){
+                    JComponent comp1 =  (JComponent)comp;
+                    comp1.setAlignmentX(Component.CENTER_ALIGNMENT);
+                }
             }
-        }                
+        }
         createAndShowGUI();
     }
 
