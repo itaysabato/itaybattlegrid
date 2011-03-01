@@ -33,15 +33,15 @@ public class QState {
 
     public QState(GameEntityInfo[][] gameState, GameEntityInfo myState) {
         GameEntityInfo enemy = findEnemy(gameState,myState);
-        myDirection = calcDirection(gameState, myState, enemy ,true);
-        hisDirection = calcDirection(gameState, myState, enemy, false);
+        myDirection = calcDirection(myState, enemy ,true);
+        hisDirection = calcDirection(myState, enemy, false);
         isLockedOnMe = calcLocked(gameState, enemy);
         isLockedOnHim = calcLocked(gameState, myState);
-        lifeDiff = calcLifeDiff(gameState, myState, enemy);
-        quarter = calcQuarter(gameState, myState, enemy);
-        frontWall = calcWall(gameState, myState, enemy, Direction.NORTH);
-        leftWall = calcWall(gameState, myState, enemy, Direction.WEST);
-        rightWall = calcWall(gameState, myState, enemy, Direction.EAST);
+        lifeDiff = calcLifeDiff(myState, enemy);
+        quarter = calcQuarter(myState, enemy);
+        frontWall = calcWall(gameState, myState, Direction.NORTH);
+        leftWall = calcWall(gameState, myState, Direction.WEST);
+        rightWall = calcWall(gameState, myState, Direction.EAST);
     }
 
     private GameEntityInfo findEnemy(GameEntityInfo[][] gameState, GameEntityInfo myState) {
@@ -57,7 +57,7 @@ public class QState {
     }
 
 
-    private short calcWall(GameEntityInfo[][] gameState, GameEntityInfo myState, GameEntityInfo enemy, Direction direction) {
+    private short calcWall(GameEntityInfo[][] gameState, GameEntityInfo myState, Direction direction) {
         Direction[] values = Direction.values();
         int myX = myState.getX(), myY = myState.getY() ;
         Direction myDirection = myState.getDirection();
@@ -65,28 +65,28 @@ public class QState {
         if(direction.equals(Direction.NORTH)){
             GameEntityInfo front = gameState[myY+myDirection.dy][myX+myDirection.dx];
 
-            if(front.equals(GameEntityType.WALL) || front.equals(GameEntityType.BORDER)) return 1;
+            if(front.getType().equals(GameEntityType.WALL) || front.getType().equals(GameEntityType.BORDER)) return 1;
             else  return 0;
         }
         else if(direction.equals(Direction.EAST)){
             myDirection = values[(myDirection.ordinal()+1)%values.length];
             GameEntityInfo right = gameState[myY+myDirection.dy][myX+myDirection.dx];
 
-            if(right.equals(GameEntityType.WALL) || right.equals(GameEntityType.BORDER)) return 1;
+            if(right.getType().equals(GameEntityType.WALL) || right.getType().equals(GameEntityType.BORDER)) return 1;
             else return 0;
         }
         else if(direction.equals(Direction.WEST)) {
             myDirection = values[(myDirection.ordinal()-1+values.length)%values.length];
             GameEntityInfo left = gameState[myY+myDirection.dy][myX+myDirection.dx];
 
-            if(left.equals(GameEntityType.WALL) || left.equals(GameEntityType.BORDER)) return 1;
+            if(left.getType().equals(GameEntityType.WALL) || left.getType().equals(GameEntityType.BORDER)) return 1;
             else return 0;
         }
 
         return 0;
     }
 
-    private short calcQuarter(GameEntityInfo[][] gameState, GameEntityInfo myState, GameEntityInfo enemy)
+    private short calcQuarter(GameEntityInfo myState, GameEntityInfo enemy)
     {
         int myX = myState.getX(), myY = myState.getY() ;
         int enemyX = enemy.getX(), enemyY = enemy.getY();
@@ -98,7 +98,7 @@ public class QState {
         return 0;
     }
 
-    private short calcLifeDiff(GameEntityInfo[][] gameState, GameEntityInfo myState, GameEntityInfo enemy) {
+    private short calcLifeDiff(GameEntityInfo myState, GameEntityInfo enemy) {
         if(myState.getLife()>enemy.getLife())  return ADVANTAGE;
         else if(myState.getLife()>enemy.getLife()) return TIE;
         else return NEG;
@@ -119,7 +119,7 @@ public class QState {
         }
     }
 
-    private short calcDirection(GameEntityInfo[][] gameState, GameEntityInfo myState, GameEntityInfo enemy, boolean my) {
+    private short calcDirection(GameEntityInfo myState, GameEntityInfo enemy, boolean my) {
         Direction direction = (my) ? myState.getDirection() : enemy.getDirection();
 
         if(Direction.NORTH.ordinal()<=direction.ordinal() && direction.ordinal()<Direction.EAST.ordinal()) {
