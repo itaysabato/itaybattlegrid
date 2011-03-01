@@ -1,6 +1,5 @@
 package battlegrid.game.view;
 
-import battlegrid.abstracts.Direction;
 import battlegrid.abstracts.GameEntityInfo;
 import battlegrid.abstracts.GameEntityType;
 import battlegrid.game.GameView;
@@ -9,9 +8,9 @@ import battlegrid.game.execution.PlayerEntity;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.util.*;
 
-import static battlegrid.setup.GameProperties.*;
+import static battlegrid.setup.GameProperties.Coloring;
+import static battlegrid.setup.GameProperties.getGameProperties;
 import static java.lang.Thread.sleep;
 
 /**
@@ -71,13 +70,26 @@ public class GameViewImpl implements GameView {
             JPanel current = new JPanel();
             current.setLayout(new BoxLayout(current,BoxLayout.X_AXIS));
             topLeft.add(current);
+            JPanel colorPanel = new JPanel();
+            colorPanel.setBackground(Coloring.valueOf(getGameProperties().getPlayerAttribute(i,"Player.color")).color);
+            JLabel playerName = new JLabel(getGameProperties().getPlayerAttribute(i, "Player.name")+" ("+getGameProperties().getPlayerAttribute(i, "Player.className")+")  | ");
+            playersHealth[i] = new JLabel("health ("+playerEntities[i].getLife()+")  |  ") ;
+            JLabel playerWins = new JLabel("wins ("+scores[i]+")");
 
-            playersHealth[i] = new JLabel("health - "+playerEntities[i].getLife()+"  |  ") ;
-            current.add(new JLabel("name - "+getGameProperties().getPlayerAttribute(i, "Player.name")+"  |  "));
-            current.add(new JLabel("type - "+getGameProperties().getPlayerAttribute(i, "Player.className")+"  |  "));
-            current.add(new JLabel("color - "+getGameProperties().getPlayerAttribute(i, "Player.color")+"  | "));
-            current.add(playersHealth[i]);
-            current.add(new JLabel("wins - "+scores[i]));
+            Font font = new Font("Ariel", Font.BOLD, 18);
+            playerName.setFont(font);
+            playerName.setForeground(Color.white);
+            playersHealth[i].setFont(font);
+            playersHealth[i].setForeground(Color.white);
+            playerWins.setFont(font);
+            playerWins.setForeground(Color.white);
+
+            colorPanel.add(playerName);
+            colorPanel.add(playersHealth[i]);
+            colorPanel.add(playerWins);
+            current.add(colorPanel);
+
+
         }
         for(Component comp:topLeft.getComponents()){
             JComponent comp1 =  (JComponent)comp;
@@ -95,7 +107,7 @@ public class GameViewImpl implements GameView {
 
     private void updateInfo() {
         for(int i = 0;i<playerEntities.length;i++) {
-            playersHealth[i].setText("health - "+playerEntities[i].getLife()+"  |  ") ;
+            playersHealth[i].setText("health ("+playerEntities[i].getLife()+")  |  ") ;
         }
     }
 
