@@ -1,6 +1,5 @@
 package battlegrid.setup;
 
-import battlegrid.abstracts.GameEntityType;
 import battlegrid.game.GameView;
 import battlegrid.game.view.GameViewImpl;
 import battlegrid.abstracts.Player;
@@ -29,17 +28,34 @@ public class XMLSetup {
             Player[] players = makePlayers();
             int[] scores = new int[players.length];
             GameView view;
+            int roundTime;
 
             if(Boolean.valueOf(properties.getProperty("Game.train"))){
                 System.out.println("Starting Training Phase:");
-                view =  Boolean.valueOf(properties.getProperty("Train.showView")) ? new GameViewImpl(scores) : new NullGameView();
-                runGames(players, scores, view,properties.getIntProperty("Train.numRounds"),properties.getIntProperty("Train.roundTime"));
+                if(Boolean.valueOf(properties.getProperty("Train.showView"))){
+                     view =  new GameViewImpl(scores);
+                    roundTime = properties.getIntProperty("Train.roundTime");
+                }
+                else {
+                       view = new NullGameView();
+                       roundTime = 0;
+                }
+                System.out.println("view: <"+view.getClass().getSimpleName()+"> roundTime: <"+roundTime+">");
+                runGames(players, scores, view,properties.getIntProperty("Train.numRounds"), roundTime);
             }
 
             Arrays.fill(scores, 0);
             System.out.println("Starting Final Phase:");
-            view =  Boolean.valueOf(properties.getProperty("Game.showView")) ? new GameViewImpl(scores) : new NullGameView();
-            runGames(players, scores, view,properties.getIntProperty("Game.numRounds"),properties.getIntProperty("Game.roundTime"));
+                if(Boolean.valueOf(properties.getProperty("Game.showView"))){
+                     view =  new GameViewImpl(scores);
+                    roundTime = properties.getIntProperty("Game.roundTime");
+                }
+                else {
+                       view = new NullGameView();
+                       roundTime = 0;
+                }
+                System.out.println("view: <"+view.getClass().getSimpleName()+"> roundTime: <"+roundTime+">");                            
+                runGames(players, scores, view,properties.getIntProperty("Game.numRounds"), roundTime);
         }
         catch (RuntimeException e){
             System.err.println("runtime exception thrown:");

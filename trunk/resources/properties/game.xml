@@ -2,13 +2,13 @@
 <Properties>
     <Players>
         <Player name="Player1" className="AStarPlayer" direction="WEST" life="3" color="BLACK" maxExplore="1000"/>
-        <Player name="Player2" className="QLearningPlayer" direction="NORTH" life="3" color="RED" alpha="0.1" gamma="0.8" epsilon="0.1" trainingDuration="2000"/>
+        <Player name="Player2" className="QLearningPlayer" direction="NORTH" life="3" color="RED" alpha="0.1" gamma="0.8" epsilon="0.1" />
     </Players>
 
     <Misc>
         <Square height="80" width="80"/>
-        <Train showView="false" numRounds="2000" roundTime="0" />
-        <Game showView="false" numRounds="2000" train="true" roundTime="0" />
+        <Train showView="true" numRounds="2000" roundTime="100" />
+        <Game showView="true" numRounds="2000" train="true" roundTime="100" />
         <Shot time="40"/>
         <WALL life="2"/>
         <BORDER life="-1"/>

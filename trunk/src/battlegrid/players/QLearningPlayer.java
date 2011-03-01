@@ -4,6 +4,7 @@ import battlegrid.abstracts.ActionHolder;
 import battlegrid.abstracts.GameEntityInfo;
 import battlegrid.abstracts.Player;
 import battlegrid.game.execution.Game;
+import battlegrid.setup.GameProperties;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class QLearningPlayer implements Player {
         alpha = Double.parseDouble(playerAttributes.get("Player.alpha"));
         gamma = Double.parseDouble(playerAttributes.get("Player.gamma"));
         epsilon = Double.parseDouble(playerAttributes.get("Player.epsilon"));
-        trainingDuration = Integer.parseInt(playerAttributes.get("Player.trainingDuration"));
+        trainingDuration = GameProperties.getGameProperties().getIntProperty("Train.numRounds");
         rewarder = new QRewarder();
     }
 
