@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="ISO-8859-2"?>
 <Properties>
     <Players>
-        <Player name="Player1" className="AStarPlayer" direction="WEST" life="3" color="BLACK" maxExplore="1000"/>
-        <Player name="Player2" className="QLearningPlayer" direction="NORTH" life="3" color="RED" alpha="0.1" gamma="0.8" epsilon="0.1" />
+        <Player name="Player1" className="ScannerPlayer" direction="WEST" life="3" color="BLACK" />
+        <Player name="Player2" className="RandomPlayer" direction="NORTH" life="3" color="RED" />
     </Players>
 
     <Misc>
         <Square height="80" width="80"/>
-        <Train showView="false" numRounds="2000" roundTime="100" />
-        <Game showView="false" numRounds="2000" train="true" roundTime="100" />
-        <Shot time="40"/>
+        <Train showView="true" numRounds="6" roundTime="50" />
+        <Game showView="false" numRounds="20000" train="true" roundTime="100" />
+        <Shot time="30"/>
         <WALL life="2"/>
         <BORDER life="-1"/>
         <BLANK life="-1"/>
@@ -36,11 +36,12 @@
 
     <Board>
         <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
-        <Row><BORDER/><BLANK/><BORDER/><BLANK/><BLANK/><BLANK  /><BORDER  /><BLANK /><BORDER/></Row>
-        <Row><BORDER/><BLANK/><BLANK/><BORDER/><BLANK  /><BORDER /><BLANK  /><BLANK/><BORDER/></Row>
-        <Row><BORDER/><BLANK/><BLANK/><BLANK/><BORDER  /><BLANK /><BLANK  /><BLANK/><BORDER/></Row>
-        <Row><BORDER/><BLANK/><BLANK/><BORDER/><BLANK  /><BORDER /><BLANK  /><BLANK/><BORDER/></Row>
-        <Row><BORDER/><BLANK/><BORDER/><BLANK/><BLANK/><BLANK  /><BORDER  /><BLANK /><BORDER/></Row>
+        <Row><BORDER/><BLANK/><BLANK/><BORDER  /><BLANK  /><BORDER /><BLANK/><BLANK/><BORDER/></Row>
+        <Row><BORDER/><BLANK/><BLANK/><WALL  /><BLANK  /><WALL /><BLANK/><BLANK/><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><WALL  /><WALL  /><WALL /><BORDER/><BORDER/><BORDER/></Row>
+        <Row><BORDER/><BORDER/><BORDER/><WALL  /><WALL  /><WALL /><BORDER/><BORDER/><BORDER/></Row>
+        <Row><BORDER/><BLANK/><BLANK/><WALL  /><BLANK  /><WALL /><BLANK/><BLANK/><BORDER/></Row>
+        <Row><BORDER/><BLANK/><BLANK/><BORDER  /><BLANK  /><BORDER /><BLANK/><BLANK/><BORDER/></Row>
         <Row><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/><BORDER/></Row>
     </Board>
 </Properties>
