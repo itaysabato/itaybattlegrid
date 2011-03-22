@@ -7,7 +7,7 @@
 
     <Misc>
         <Square height="80" width="80"/>
-        <Train showView="true" numRounds="20000" roundTime="100" />
+        <Train showView="false" numRounds="20000" roundTime="100" />
         <Game showView="false" numRounds="20000" train="true" roundTime="100" />
         <Shot time="30"/>
         <WALL life="2"/>
